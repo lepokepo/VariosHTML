@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Nova Venda</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/simple-sidebar.css" rel="stylesheet">
+
+  <style>
+    .redond {
+      border-radius: 50%;
+      max-width: 100%;
+      border: 3px solid rgb(46, 41, 41);
+    }
+
+    .letraNome {
+      font-size: 15px !important;
+      font-weight: bold !important;
+    }
+
+    .bdr {
+      border-top: 1px solid rgb(46, 41, 41);
+      border-bottom: 1px solid rgb(46, 41, 41) !important;
+    }
+
+    .bdrcampos {
+      border-bottom: 1px solid rgb(46, 41, 41) !important;
+      border-top: 1px solid rgb(46, 41, 41) !important;
+      border-left: 1px solid rgb(46, 41, 41) !important;
+    }
+
+    .vendaBox {
+      border: 2px solid rgb(46, 41, 41) !important;
+      height: 70%;
+    }
+
+    .pedin {
+      padding-left: 3%;
+      padding-bottom: 3%;
+      padding-top: 3%;
+      padding-right: 3%;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div
+      style="width: 17%!important; margin-right: 1%; background-color: rgb(91, 189, 255)!important; border-right: 1px solid rgb(46, 41, 41);"
+      class="bg-light " id="sidebar-wrapper">
+      <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
+      <div class="letraNome sidebar-heading"> Luigi Pesone</div>
+      <div class="list-group list-group-flush">
+        <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-outline-dark" id="menu-toggle">Perfil</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+
+      <div class="container-fluid">
+        <h1 class="mt-4">Nova Venda</h1>
+        <div class="vendaBox">
+          <div class="row pedin">
+            <div id="idtx" class="col-1 bdrcampos">ID</div>
+            <div id="nometx" class="col bdrcampos">Nome</div>
+            <div id="valortx" style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-3 bdrcampos">Valor
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>

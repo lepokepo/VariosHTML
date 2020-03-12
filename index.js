@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const moment = require('moment');
-const dayjs = require('dayjs')
 const app = express();
 const mysql = require('mysql');
 const connection = mysql.createConnection({
@@ -10,12 +9,12 @@ const connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: '',
-    database: 'eventodb',
+    database: 'clientesdb',
 })
 
 connection.connect(function (err) {
     if (err) {
-        console.error('erro conectando banco: ' + err.stack())
+        console.error('erro conectando banco: ', err)
         return;
     }
 
@@ -24,47 +23,42 @@ connection.connect(function (err) {
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(express.static('public'));
+const path = require('path');
 
 
 //Rotas
-app.get('/eventos', function (req, res) {
-    connection.query('select * from evento where extract(month from date_hora)= extract(month from current_date)',
+app.get('/getListaP', function (req, res) {
+    connection.query('select * from produto',
         function (error, results, fields) {
             if (error)
                 res.json;
             else {
-                results.forEach(element => {
-                    var data = element['date_hora']
-                    element['date_hora'] = moment(data).format('L, hh:mm:ss')
-                    console.log(element['date_hora'])
-
-
-                });
                 res.json(results);
-                console.log('executou /eventos')
+                console.log('executou /getListaP')
             }
 
         })
 });
 
+app.use('/adiciona', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/cadastro.html'));
 
-app.post('/add_evento', function (req, res) {
-    console.log(req.body)
+})
 
+app.use('/novaVenda', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/novaVenda.html'));
 
-    var nomeEvento = req.body.namee
-    var dataEvento = moment(req.body.dt_hr, 'DDMMYYYY HHmm').format()
-    connection.query(`insert into evento(nome, date_hora) values('${nomeEvento}', '${dataEvento}')`, function (error, results, fields) {
-        if (error)
-            return res.send(error);
+})
+app.use('/listaP', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/listaProduto.html'));
 
-        res.json({
-            id: results.insertId
-        });
-        console.log('executou /add_evento');
-    });
-});
+})
+
+app.use('/*', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/index.html'));
+
+})
 
 app.listen(80, function () {
     console.log('Server escutou\n')
