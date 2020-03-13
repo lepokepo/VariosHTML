@@ -17,7 +17,28 @@
   <link href="css/simple-sidebar.css" rel="stylesheet">
 
   <script>
-    
+    function send() {
+      let vari = {
+        "nomeP": document.getElementById("nometx").value,
+        "valorP": document.getElementById("valortx").value,
+      }
+
+      postProdServer(vari)
+    }
+    function postProdServer(jeison) {
+      console.log('Posting...');
+      fetch('http://192.168.12.123/postProd', {
+        method:'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jeison)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log('Retorno:', data);
+      });
+    }
   </script>
 
   <style>
@@ -36,6 +57,12 @@
       border-top: 1px solid rgb(46, 41, 41);
       border-bottom: 1px solid rgb(46, 41, 41) !important;
     }
+
+    .vendaBox {
+      border: 2px solid rgb(46, 41, 41) !important;
+      padding: 3%;
+
+    }
   </style>
 
 </head>
@@ -51,8 +78,8 @@
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
       <div class="list-group list-group-flush">
+        <a href="/listaP" class="bdr list-group-item list-group-item-action bg-light">Listar Produtos</a>
         <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
-        
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -72,8 +99,14 @@
 
       <div class="container-fluid">
         <h1 class="mt-4">Adicionar Produto</h1>
-        <div >
+        <div class="vendaBox">
 
+          <span>Nome: </span><br>
+          <input id="nometx" type="text"><br><br>
+          <span>Valor: </span><br>
+          <input id="valortx" type="number"><br>
+          <button style="padding-left: 1%;padding-left: 1%;margin-left: 23%;" type="button" onclick="send()"
+            class="btn btn-outline-dark">Add</button>
         </div>
 
       </div>

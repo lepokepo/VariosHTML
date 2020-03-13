@@ -16,6 +16,32 @@
   <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
 
+  <script>
+    function mostrarTabela() {
+
+      console.log('Recebendo...');
+      fetch('http://192.168.12.123/getListaP', {
+        method: 'get',
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log('Retorno:', data);
+        data.forEach(element => {
+          var idComp = document.getElementById("idinpt").value
+          if (element["idproduto"] == idComp) {
+            document.getElementById('idtx').innerHTML += `<div><span > ${element["idproduto"]} </span></div>`;
+            document.getElementById('nometx').innerHTML += `<div><span > ${element["nome"]} </span></div>`;
+            document.getElementById('qntx').innerHTML += `<div><span > ${document.getElementById("qntinpt").value} </span></div>`;
+            document.getElementById('valortx').innerHTML += `<div><span> R$ ${element["valor"] * document.getElementById("qntinpt").value} </span></div>`;
+          } else {
+            console.log("nao achou")
+          }
+        });
+      });
+
+    }
+  </script>
+
   <style>
     .redond {
       border-radius: 50%;
@@ -84,12 +110,28 @@
 
       <div class="container-fluid">
         <h1 class="mt-4">Nova Venda</h1>
+        <div style="border-bottom: 0px solid rgb(255, 255, 255) !important;" class="vendaBox">
+          <div class="row pedin">
+            <input id="idinpt" placeholder="ID" type="number" min=0 style="border-right:  1px solid rgb(46, 41, 41) !important;
+              border-right: 0px solid rgb(255, 255, 255) !important;" class="col-1 bdrcampos"><br>
+            <input id="qntinpt" placeholder="Quantidade" type="number" min=1
+              style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-2 bdrcampos">
+            <button style="margin-left: 1%;" type="button" onclick="mostrarTabela()"
+              class="btn btn-outline-dark">Add</button>
+
+
+
+          </div>
+        </div>
         <div class="vendaBox">
           <div class="row pedin">
             <div id="idtx" class="col-1 bdrcampos">ID</div>
             <div id="nometx" class="col bdrcampos">Nome</div>
+            <div id="qntx" class="col-2 bdrcampos">Quantidade</div>
             <div id="valortx" style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-3 bdrcampos">Valor
-            </div>
+              Total
+            </div><br>
+            <span></span>
           </div>
         </div>
 

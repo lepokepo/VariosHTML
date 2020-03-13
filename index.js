@@ -28,6 +28,21 @@ const path = require('path');
 
 
 //Rotas
+app.post('/postProd', function (req, res) {
+    console.log(req.body)
+    var nomeProd = req.body.nomeP
+    var valorProd = req.body.valorP
+    connection.query(`insert into produto(nome, valor) values('${nomeProd}', '${valorProd}')`, function (error, results, fields) {
+        if (error)
+            return res.send(error);
+
+        res.json({
+            id: results.insertId
+        });
+        console.log('executou /postProd');
+    });
+});
+
 app.get('/getListaP', function (req, res) {
     connection.query('select * from produto',
         function (error, results, fields) {
