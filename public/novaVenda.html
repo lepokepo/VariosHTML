@@ -76,6 +76,12 @@
       padding-top: 3%;
       padding-right: 3%;
     }
+
+    .button:hover {
+      background-color: rgb(17, 220, 108);
+      transition-duration: 0.3s;
+      color: rgb(255, 255, 255);
+    }
   </style>
 
 </head>
@@ -86,11 +92,12 @@
 
     <!-- Sidebar -->
     <div
-      style="width: 17%!important; margin-right: 1%; background-color: rgb(91, 189, 255)!important; border-right: 1px solid rgb(46, 41, 41);"
+      style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
       class="bg-light " id="sidebar-wrapper">
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
       <div class="list-group list-group-flush">
+        <a href="/listaV" class="bdr list-group-item list-group-item-action bg-light">Lista de Vendas</a>
         <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
       </div>
     </div>
@@ -100,7 +107,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-outline-dark" id="menu-toggle">Perfil</button>
+        <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,23 +123,27 @@
               border-right: 0px solid rgb(255, 255, 255) !important;" class="col-1 bdrcampos"><br>
             <input id="qntinpt" placeholder="Quantidade" type="number" min=1
               style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-2 bdrcampos">
-            <button style="margin-left: 1%;" type="button" onclick="mostrarTabela()"
-              class="btn btn-outline-dark">Add</button>
+            <button style="border-radius: 1px !important;margin-left: 1%;" type="button" onclick="mostrarTabela()"
+              class="btn button">Add</button>
 
 
 
           </div>
         </div>
         <div class="vendaBox">
+          <div class="pedin row">
+            <button style="margin-left: 1%;" type="button" onclick="" class="btn btn-outline-">Finalizar</button>
+          </div>
           <div class="row pedin">
             <div id="idtx" class="col-1 bdrcampos">ID</div>
             <div id="nometx" class="col bdrcampos">Nome</div>
             <div id="qntx" class="col-2 bdrcampos">Quantidade</div>
             <div id="valortx" style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-3 bdrcampos">Valor
               Total
-            </div><br>
-            <span></span>
+            </div>
+
           </div>
+
         </div>
 
       </div>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Lista de Vendas</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <script>
+        function receberServ() {
+
+            console.log('Recebendo...');
+            fetch('http://192.168.12.123/getListaV', {
+                method: 'get',
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                console.log('Retorno:', data);
+                data.forEach(element => {
+                    document.getElementById('idtx').innerHTML += `<div><span > ${element["idvenda"]} </span></div>`;
+                    document.getElementById('hrtx').innerHTML += `<div><span> ${element["dt_time"]} </span></div>`;
+                });
+            });
+
+        }
+    </script>
+
+    <style>
+        .redond {
+            border-radius: 50%;
+            max-width: 100%;
+            border: 3px solid rgb(46, 41, 41);
+        }
+
+        .letraNome {
+            font-size: 15px !important;
+            font-weight: bold !important;
+        }
+
+        .bdr {
+            border-top: 1px solid rgb(46, 41, 41);
+            border-bottom: 1px solid rgb(46, 41, 41) !important;
+        }
+
+        .bdrcampos {
+            border-bottom: 1px solid rgb(46, 41, 41) !important;
+            border-top: 1px solid rgb(46, 41, 41) !important;
+            border-left: 1px solid rgb(46, 41, 41) !important;
+        }
+
+
+        .vendaBox {
+            border: 2px solid rgb(46, 41, 41) !important;
+        }
+
+        .pedin {
+            padding-left: 3%;
+            padding-bottom: 3%;
+            padding-top: 3%;
+            padding-right: 3%;
+        }
+
+        .button:hover {
+            background-color: rgb(17, 220, 108);
+            transition-duration: 0.3s;
+            color: rgb(255, 255, 255);
+        }
+    </style>
+
+</head>
+
+<body onload="receberServ()">
+
+    <div class="d-flex" id="wrapper">
+
+        <!-- Sidebar -->
+        <div style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
+            class="bg-light " id="sidebar-wrapper">
+            <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
+            <div class="letraNome sidebar-heading"> Luigi Pesone</div>
+            <div class="list-group list-group-flush">
+                <a href="/novaVenda" class="bdr list-group-item list-group-item-action bg-light">Nova Venda</a>
+                <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Lista de Vendas</h1>
+                <div style="width: 70%;" class="vendaBox">
+                    <div class="row pedin">
+                        <div id="idtx" class="col-1 bdrcampos">ID</div>
+                        <div id="hrtx" style="border-right:  1px solid rgb(46, 41, 41) !important;"
+                            class="col bdrcampos">
+                            Data Hora</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+</body>
+
+</html>

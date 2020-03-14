@@ -28,7 +28,17 @@
       font-weight: bold !important;
     }
 
-    .bdr {
+    .bdr:hover {
+      background-color: rgba(0, 255, 115, 0.055) !important;
+    }
+
+    .button:hover {
+      background-color: rgb(17, 220, 108);
+      transition-duration: 0.3s;
+      color: rgb(255, 255, 255);
+    }
+
+    .tpbt {
       border-top: 1px solid rgb(46, 41, 41);
       border-bottom: 1px solid rgb(46, 41, 41) !important;
     }
@@ -42,14 +52,15 @@
 
     <!-- Sidebar -->
     <div
-      style="width: 17%!important; margin-right: 1%; background-color: rgb(91, 189, 255)!important; border-right: 1px solid rgb(46, 41, 41);"
+      style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
       class="bg-light " id="sidebar-wrapper">
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
-      <div class="list-group list-group-flush">
-        <a href="/adiciona" class="bdr list-group-item list-group-item-action bg-light">Adicionar Produtos</a>
-        <a href="/listaP" class="bdr list-group-item list-group-item-action bg-light">Listar Produtos</a>
-        <a href="/novaVenda" class="bdr list-group-item list-group-item-action bg-light">Nova Venda</a>
+      <div class="tpbt list-group list-group-flush">
+        <a href="/adiciona" class="bdr list-group-item list-group-item-action ">Novo Produto</a>
+        <a href="/listaP" class="bdr list-group-item list-group-item-action ">Lista de Produtos</a>
+        <a href="/novaVenda" class="bdr list-group-item list-group-item-action ">Nova Venda</a>
+        <a href="/listaV" class="bdr list-group-item list-group-item-action ">Lista de Vendas</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -58,7 +69,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-outline-dark" id="menu-toggle">Perfil</button>
+        <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

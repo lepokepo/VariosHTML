@@ -28,7 +28,7 @@
     function postProdServer(jeison) {
       console.log('Posting...');
       fetch('http://192.168.12.123/postProd', {
-        method:'post',
+        method: 'post',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -63,6 +63,12 @@
       padding: 3%;
 
     }
+
+    .button:hover {
+      background-color: rgb(17, 220, 108);
+      transition-duration: 0.3s;
+      color: rgb(255, 255, 255);
+    }
   </style>
 
 </head>
@@ -73,12 +79,12 @@
 
     <!-- Sidebar -->
     <div
-      style="width: 17%!important; margin-right: 1%; background-color: rgb(91, 189, 255)!important; border-right: 1px solid rgb(46, 41, 41);"
+      style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
       class="bg-light " id="sidebar-wrapper">
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
       <div class="list-group list-group-flush">
-        <a href="/listaP" class="bdr list-group-item list-group-item-action bg-light">Listar Produtos</a>
+        <a href="/listaP" class="bdr list-group-item list-group-item-action bg-light">Lista de Produtos</a>
         <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
       </div>
     </div>
@@ -88,7 +94,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-outline-dark" id="menu-toggle">Perfil</button>
+        <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,14 +105,14 @@
 
       <div class="container-fluid">
         <h1 class="mt-4">Adicionar Produto</h1>
-        <div class="vendaBox">
+        <div style="padding-bottom: 4% !important;width: 22% !important;" class="vendaBox">
 
           <span>Nome: </span><br>
           <input id="nometx" type="text"><br><br>
           <span>Valor: </span><br>
           <input id="valortx" type="number"><br>
-          <button style="padding-left: 1%;padding-left: 1%;margin-left: 23%;" type="button" onclick="send()"
-            class="btn btn-outline-dark">Add</button>
+          <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;"
+            type="button" onclick="send()" class="btn button">Add</button>
         </div>
 
       </div>

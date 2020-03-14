@@ -56,6 +56,22 @@ app.get('/getListaP', function (req, res) {
         })
 });
 
+app.get('/getListaV', function (req, res) {
+    connection.query('select * from venda order by idvenda desc',
+        function (error, results, fields) {
+            if (error)
+                res.json;
+            else {
+                results.forEach(element => {
+                    element["dt_time"] = moment(element["dt_time"]).format('lll')
+                });
+                res.json(results);
+                console.log('executou /getListaV')
+            }
+
+        })
+});
+
 app.use('/adiciona', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/cadastro.html'));
 
@@ -67,6 +83,11 @@ app.use('/novaVenda', function (req, res) {
 })
 app.use('/listaP', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/listaProduto.html'));
+
+})
+
+app.use('/listaV', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/listaVenda.html'));
 
 })
 

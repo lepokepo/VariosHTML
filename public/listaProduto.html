@@ -27,9 +27,11 @@
       }).then(function (data) {
         console.log('Retorno:', data);
         data.forEach(element => {
-          document.getElementById('idtx').innerHTML += `<div><span > ${element["idproduto"]} </span></div>`;
-          document.getElementById('nometx').innerHTML += `<div><span > ${element["nome"]} </span></div>`;
-          document.getElementById('valortx').innerHTML += `<div><span> R$ ${element["valor"]} </span></div>`;
+
+          document.getElementById('prdtx').innerHTML += `<div><span > ${element["idproduto"]} ${element["nome"]}  ${element["valor"]}</span></div>`;
+          // document.getElementById('actx').innerHTML += `<div><span><button style="float:right; border-radius: 1px !important;"
+          //   type="button" onclick="" class="btn button">Delete</button>  </span></div>`;
+
         });
       });
 
@@ -70,6 +72,12 @@
       padding-top: 3%;
       padding-right: 3%;
     }
+
+    .button:hover {
+      background-color: rgb(17, 220, 108);
+      transition-duration: 0.3s;
+      color: rgb(255, 255, 255);
+    }
   </style>
 
 </head>
@@ -80,12 +88,12 @@
 
     <!-- Sidebar -->
     <div
-      style="width: 17%!important; margin-right: 1%; background-color: rgb(91, 189, 255)!important; border-right: 1px solid rgb(46, 41, 41);"
+      style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
       class="bg-light " id="sidebar-wrapper">
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
       <div class="list-group list-group-flush">
-        <a href="/adiciona" class="bdr list-group-item list-group-item-action bg-light">Adicionar Produtos</a>
+        <a href="/adiciona" class="bdr list-group-item list-group-item-action bg-light">Novo Produto</a>
         <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
       </div>
     </div>
@@ -95,7 +103,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-outline-dark" id="menu-toggle">Perfil</button>
+        <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,9 +117,10 @@
         <h1 class="mt-4">Lista de Produtos</h1>
         <div class="vendaBox">
           <div class="row pedin">
-            <div id="idtx" class="col-1 bdrcampos">ID</div>
+            <div id="prdtx" class="col-1 bdrcampos">ID</div>
             <div id="nometx" class="col bdrcampos">Nome</div>
-            <div id="valortx" style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-3 bdrcampos">Valor
+            <div id="valortx" class="col-2 bdrcampos">Valor</div>
+            <div id="actx" style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-1 bdrcampos">Ações
             </div>
           </div>
         </div>
