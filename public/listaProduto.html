@@ -20,7 +20,7 @@
     function receberServ() {
 
       console.log('Recebendo...');
-      fetch('http://192.168.12.123/getListaP', {
+      fetch('http://192.168.1.104/getListaP', {
         method: 'get',
       }).then(function (response) {
         return response.json();
@@ -28,7 +28,19 @@
         console.log('Retorno:', data);
         data.forEach(element => {
 
-          document.getElementById('prdtx').innerHTML += `<div><span > ${element["idproduto"]} ${element["nome"]}  ${element["valor"]}</span></div>`;
+          document.getElementById('prdtx').innerHTML += `<div style="width: 98%" class="row"> 
+            <div class="col-1 bdrcampos">${element["idproduto"]}</div> 
+            <div class="col bdrcampos">${element["nome"]}</div> 
+            <div class=" col-2 bdrcampos">R$ ${element["valor"]}</div>
+            <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-2 bdrcampos">
+              <button style="float:right; border-radius: 1px !important;"
+              type="button" onclick="" class="btn button">Del</button>
+              <button style="float:right; border-radius: 1px !important;"
+              type="button" onclick="" class="btn button">Edt</button>
+              </div>
+            </div>`;
+
+
           // document.getElementById('actx').innerHTML += `<div><span><button style="float:right; border-radius: 1px !important;"
           //   type="button" onclick="" class="btn button">Delete</button>  </span></div>`;
 
@@ -52,12 +64,11 @@
 
     .bdr {
       border-top: 1px solid rgb(46, 41, 41);
-      border-bottom: 1px solid rgb(46, 41, 41) !important;
+      border-bottom: 1px solid rgb(46, 41, 41);
     }
 
     .bdrcampos {
-      border-bottom: 1px solid rgb(46, 41, 41) !important;
-      border-top: 1px solid rgb(46, 41, 41) !important;
+      border-top: 1px solid rgb(46, 41, 41);
       border-left: 1px solid rgb(46, 41, 41) !important;
     }
 
@@ -66,17 +77,20 @@
       border: 2px solid rgb(46, 41, 41) !important;
     }
 
-    .pedin {
-      padding-left: 3%;
-      padding-bottom: 3%;
-      padding-top: 3%;
-      padding-right: 3%;
+    .row:last-child {
+      border-bottom: 1px solid rgb(46, 41, 41);
+      margin-bottom: 7%;
     }
 
     .button:hover {
       background-color: rgb(17, 220, 108);
-      transition-duration: 0.3s;
+      transition-duration: 0.5s;
       color: rgb(255, 255, 255);
+    }
+
+    .tpbt {
+      border-top: 1px solid rgb(46, 41, 41);
+      border-bottom: 1px solid rgb(46, 41, 41) !important;
     }
   </style>
 
@@ -88,13 +102,13 @@
 
     <!-- Sidebar -->
     <div
-      style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
+      style="width: 18%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
       class="bg-light " id="sidebar-wrapper">
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
-      <div class="list-group list-group-flush">
-        <a href="/adiciona" class="bdr list-group-item list-group-item-action bg-light">Novo Produto</a>
-        <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
+      <div class="tpbt list-group list-group-flush">
+        <a href="/adiciona" class="list-group-item list-group-item-action bg-light">Novo Produto</a>
+        <a href="/" class="list-group-item list-group-item-action bg-light">Voltar</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -115,19 +129,23 @@
 
       <div class="container-fluid">
         <h1 class="mt-4">Lista de Produtos</h1>
-        <div class="vendaBox">
-          <div class="row pedin">
-            <div id="prdtx" class="col-1 bdrcampos">ID</div>
-            <div id="nometx" class="col bdrcampos">Nome</div>
-            <div id="valortx" class="col-2 bdrcampos">Valor</div>
-            <div id="actx" style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-1 bdrcampos">Ações
+        <div style="padding-left: 5%;" class="vendaBox">
+          <div id="prdtx">
+            <div style="width: 98%; padding-top: 7%;" class="row">
+              <div class="margin col-1 bdrcampos">ID</div>
+              <div class=" margin col bdrcampos">Nome</div>
+              <div class="amrgin col-2 bdrcampos">Preço
+              </div>
+              <div style="border-right: 1px solid rgb(46, 41, 41)" class="amrgin col-2 bdrcampos">Ações
+              </div>
             </div>
           </div>
         </div>
-
       </div>
+
     </div>
-    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#page-content-wrapper -->
 
   </div>
   <!-- /#wrapper -->

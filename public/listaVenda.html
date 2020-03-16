@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista de Vendas</title>
+    <title>Histórico de Vendas</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,15 +20,16 @@
         function receberServ() {
 
             console.log('Recebendo...');
-            fetch('http://192.168.12.123/getListaV', {
+            fetch('http://192.168.1.104/getListaV', {
                 method: 'get',
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
                 console.log('Retorno:', data);
                 data.forEach(element => {
-                    document.getElementById('idtx').innerHTML += `<div><span > ${element["idvenda"]} </span></div>`;
-                    document.getElementById('hrtx').innerHTML += `<div><span> ${element["dt_time"]} </span></div>`;
+                    document.getElementById('vendatx').innerHTML += `<div style="width: 91%" class="row"> 
+            <div class="col-1 bdrcampos">${element["idvenda"]}</div> 
+            <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">${element["dt_time"]}</div> `;
                 });
             });
 
@@ -47,13 +48,17 @@
             font-weight: bold !important;
         }
 
+        .tpbt {
+            border-top: 1px solid rgb(46, 41, 41);
+            border-bottom: 1px solid rgb(46, 41, 41) !important;
+        }
+
         .bdr {
             border-top: 1px solid rgb(46, 41, 41);
             border-bottom: 1px solid rgb(46, 41, 41) !important;
         }
 
         .bdrcampos {
-            border-bottom: 1px solid rgb(46, 41, 41) !important;
             border-top: 1px solid rgb(46, 41, 41) !important;
             border-left: 1px solid rgb(46, 41, 41) !important;
         }
@@ -64,16 +69,18 @@
         }
 
         .pedin {
-            padding-left: 3%;
-            padding-bottom: 3%;
-            padding-top: 3%;
-            padding-right: 3%;
+            padding: 3%;
         }
 
         .button:hover {
             background-color: rgb(17, 220, 108);
             transition-duration: 0.3s;
             color: rgb(255, 255, 255);
+        }
+
+        .row:last-child {
+            border-bottom: 1px solid rgb(46, 41, 41);
+            margin-bottom: 7%;
         }
     </style>
 
@@ -84,13 +91,13 @@
     <div class="d-flex" id="wrapper">
 
         <!-- Sidebar -->
-        <div style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
+        <div style="width: 18%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
             class="bg-light " id="sidebar-wrapper">
             <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
             <div class="letraNome sidebar-heading"> Luigi Pesone</div>
-            <div class="list-group list-group-flush">
-                <a href="/novaVenda" class="bdr list-group-item list-group-item-action bg-light">Nova Venda</a>
-                <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
+            <div class="tpbt list-group list-group-flush">
+                <a href="/novaVenda" class="list-group-item list-group-item-action bg-light">Nova Venda</a>
+                <a href="/" class="list-group-item list-group-item-action bg-light">Voltar</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -111,34 +118,33 @@
             </nav>
 
             <div class="container-fluid">
-                <h1 class="mt-4">Lista de Vendas</h1>
-                <div style="width: 70%;" class="vendaBox">
-                    <div class="row pedin">
-                        <div id="idtx" class="col-1 bdrcampos">ID</div>
-                        <div id="hrtx" style="border-right:  1px solid rgb(46, 41, 41) !important;"
-                            class="col bdrcampos">
-                            Data Hora</div>
+                <h1 class="mt-4">Histórico de Vendas</h1>
+                <div style="width: 98%;padding-left: 10%;" class="vendaBox">
+                    <div id="vendatx">
+                        <div style="width: 91%; margin-top: 6%;" class="row">
+                            <div class="col-1 bdrcampos">ID</div>
+                            <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
+                                Data Hora</div>
+                        </div>
+
                     </div>
                 </div>
+                <!-- /#page-content-wrapper -->
 
             </div>
-        </div>
-        <!-- /#page-content-wrapper -->
+            <!-- /#wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+            <!-- Bootstrap core JavaScript -->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
+            <!-- Menu Toggle Script -->
+            <script>
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
+                });
+            </script>
 
 </body>
 

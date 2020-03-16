@@ -27,7 +27,7 @@
     }
     function postProdServer(jeison) {
       console.log('Posting...');
-      fetch('http://192.168.12.123/postProd', {
+      fetch('http://192.168.1.104/postProd', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -69,6 +69,11 @@
       transition-duration: 0.3s;
       color: rgb(255, 255, 255);
     }
+
+    .tpbt {
+      border-top: 1px solid rgb(46, 41, 41);
+      border-bottom: 1px solid rgb(46, 41, 41) !important;
+    }
   </style>
 
 </head>
@@ -79,13 +84,13 @@
 
     <!-- Sidebar -->
     <div
-      style="width: 17%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
+      style="width: 18%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
       class="bg-light " id="sidebar-wrapper">
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
-      <div class="list-group list-group-flush">
-        <a href="/listaP" class="bdr list-group-item list-group-item-action bg-light">Lista de Produtos</a>
-        <a href="/" class="bdr list-group-item list-group-item-action bg-light">Voltar</a>
+      <div class="tpbt list-group list-group-flush">
+        <a href="/listaP" class=" list-group-item list-group-item-action bg-light">Lista de Produtos</a>
+        <a href="/" class=" list-group-item list-group-item-action bg-light">Voltar</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -111,8 +116,8 @@
           <input id="nometx" type="text"><br><br>
           <span>Valor: </span><br>
           <input id="valortx" type="number"><br>
-          <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;"
-            type="button" onclick="send()" class="btn button">Add</button>
+          <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;" type="button"
+            onclick="send()" class="btn button">Add</button>
         </div>
 
       </div>
