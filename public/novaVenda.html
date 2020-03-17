@@ -11,40 +11,59 @@
   <title>Nova Venda</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet">
+  <link href="/css/simple-sidebar.css" rel="stylesheet">
 
   <script>
+    let total = 0;
+    let arrayObj = [];
     function mostrarTabela() {
-
+      let objetoto = {
+        "produto_id": "",
+        "quantidade": 0,
+        "valor_item": 0,
+      };
+      var idComp = document.getElementById("idinpt").value
       console.log('Recebendo...');
-      fetch('http://192.168.1.104/getListaP', {
+      console.log(idComp);
+      fetch(`http://192.168.12.123/getProduto/${idComp}`, {
         method: 'get',
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
         console.log('Retorno:', data);
-        data.forEach(element => {
-          var idComp = document.getElementById("idinpt").value
-          if (element["idproduto"] == idComp) {
-            var quant = document.getElementById("qntinpt").value
-            var valor = quant * element["valor"]
-            document.getElementById('vendatx').innerHTML +=
-              `<div style="width: 91%;" class="row">
-              <div class="col-1 bdrcampos">${element["idproduto"]}</div>
+        console.log(data);
+        if (data.idproduto == idComp) {
+          let quant = parseFloat(document.getElementById("qntinpt").value)
+          let valor = quant * parseFloat(data.valor)
+          total += valor
+
+          objetoto.produto_id = data.idproduto;
+          objetoto.quantidade = quant;
+          objetoto.valor_item = valor;
+
+          arrayObj.push(objetoto);
+
+          document.getElementById('vendatx').innerHTML +=
+            `<div style="width: 91%;" class="row">
+              <div class="col-1 bdrcampos">${data.idproduto}</div>
               <div class="col-3 bdrcampos">${quant}</div>
               <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
-                  R$ ${valor}</div>
-          </div> `
-          } else {
-            console.log("nao achou")
+              R$ ${valor}</div></div> `
 
-          }
-        });
+        } else {
+          console.log("nao achou produto")
+        }
+        document.getElementById("valorftx").value = total;
+
       });
 
+    }
+
+    function postServer() {
+      arrayObj
     }
 
 
@@ -83,7 +102,7 @@
 
     .button:hover {
       background-color: rgb(17, 220, 108);
-      transition-duration: 0.3s;
+      transition-duration: 0.2s;
       color: rgb(255, 255, 255);
     }
 
@@ -151,7 +170,7 @@
 
         <div class="vendaBox">
           <div style="margin-left: 5.5%;width: 91%;" class="pedin row">
-            <input  class="col-3" type="text" id="valorftx" placeholder="Valor Final" readonly>
+            <input class="col-3" type="text" id="valorftx" placeholder="Valor Final" readonly>
             <button style="margin-left: 1%;border-radius: 1px !important;" type="button" onclick=""
               class="btn button">Finalizar</button>
           </div>
@@ -175,8 +194,8 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Menu Toggle Script -->
   <script>

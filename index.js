@@ -56,6 +56,19 @@ app.get('/getListaP', function (req, res) {
         })
 });
 
+app.get('/getProduto/:id', function (req, res) {
+    connection.query('select * from produto where idproduto = ?', [req.params.id],
+        function (error, results, fields) {
+            if (error)
+                res.json;
+            else {
+                res.json(results[0]);
+                console.log('executou /getProduto')
+            }
+
+        })
+});
+
 app.get('/getListaV', function (req, res) {
     connection.query('select * from venda order by idvenda desc',
         function (error, results, fields) {
@@ -91,8 +104,8 @@ app.use('/listaV', function (req, res) {
 
 })
 
-app.use('/*', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 
 })
 

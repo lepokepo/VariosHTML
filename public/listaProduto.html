@@ -11,16 +11,16 @@
   <title>Lista de Produtos</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet">
+  <link href="/css/simple-sidebar.css" rel="stylesheet">
 
   <script>
     function receberServ() {
 
       console.log('Recebendo...');
-      fetch('http://192.168.1.104/getListaP', {
+      fetch('http://192.168.12.123/getListaP', {
         method: 'get',
       }).then(function (response) {
         return response.json();
@@ -84,7 +84,7 @@
 
     .button:hover {
       background-color: rgb(17, 220, 108);
-      transition-duration: 0.5s;
+      transition-duration: 0.2s;
       color: rgb(255, 255, 255);
     }
 
@@ -151,8 +151,8 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Menu Toggle Script -->
   <script>
