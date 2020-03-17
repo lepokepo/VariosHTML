@@ -85,6 +85,20 @@ app.get('/getListaV', function (req, res) {
         })
 });
 
+app.get('/getgraficop', function (req, res) {
+    connection.query('select (quantidade * 100)/(select sum(quantidade)from item_venda)as porc from item_venda group by produto_id order by porc desc;',
+        function (error, results, fields) {
+            if (error)
+                res.json;
+            else {
+
+                res.json(results);
+                console.log('executou /getListaV')
+            }
+
+        })
+});
+
 app.use('/adiciona', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/cadastro.html'));
 
@@ -101,6 +115,11 @@ app.use('/listaP', function (req, res) {
 
 app.use('/listaV', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/listaVenda.html'));
+
+})
+
+app.use('/graficoP', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/graficoProduto.html'));
 
 })
 

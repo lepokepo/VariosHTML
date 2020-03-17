@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Histórico de Vendas</title>
+    <title>Gráfico de Produtos</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -17,19 +17,18 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
-        function receberServ() {
+        function criaGrafico() {
 
             console.log('Recebendo...');
-            fetch('http://192.168.1.104/getListaV', {
+            fetch('http://192.168.1.104/getgraficop', {
                 method: 'get',
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
                 console.log('Retorno:', data);
                 data.forEach(element => {
-                    document.getElementById('vendatx').innerHTML += `<div style="width: 91%" class="row"> 
-            <div class="col-1 bdrcampos">${element["idvenda"]}</div> 
-            <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">${element["dt_time"]}</div> `;
+                    document.getElementById('prdtg').innerHTML += `  `;
+
                 });
             });
 
@@ -48,18 +47,13 @@
             font-weight: bold !important;
         }
 
-        .tpbt {
-            border-top: 1px solid rgb(46, 41, 41);
-            border-bottom: 1px solid rgb(46, 41, 41) !important;
-        }
-
         .bdr {
             border-top: 1px solid rgb(46, 41, 41);
-            border-bottom: 1px solid rgb(46, 41, 41) !important;
+            border-bottom: 1px solid rgb(46, 41, 41);
         }
 
         .bdrcampos {
-            border-top: 1px solid rgb(46, 41, 41) !important;
+            border-top: 1px solid rgb(46, 41, 41);
             border-left: 1px solid rgb(46, 41, 41) !important;
         }
 
@@ -68,8 +62,9 @@
             border: 2px solid rgb(46, 41, 41) !important;
         }
 
-        .pedin {
-            padding: 3%;
+        .row:last-child {
+            border-bottom: 1px solid rgb(46, 41, 41);
+            margin-bottom: 7%;
         }
 
         .button:hover {
@@ -78,9 +73,9 @@
             color: rgb(255, 255, 255);
         }
 
-        .row:last-child {
-            border-bottom: 1px solid rgb(46, 41, 41);
-            margin-bottom: 7%;
+        .tpbt {
+            border-top: 1px solid rgb(46, 41, 41);
+            border-bottom: 1px solid rgb(46, 41, 41) !important;
         }
     </style>
 
@@ -97,6 +92,7 @@
             <div class="letraNome sidebar-heading"> Luigi Pesone</div>
             <div class="tpbt list-group list-group-flush">
                 <a href="/novaVenda" class="list-group-item list-group-item-action bg-light">Nova Venda</a>
+                <a href="/listaP" class="list-group-item list-group-item-action bg-light">Lista de Produtos</a>
                 <a href="/" class="list-group-item list-group-item-action bg-light">Voltar</a>
             </div>
         </div>
@@ -118,33 +114,67 @@
             </nav>
 
             <div class="container-fluid">
-                <h1 class="mt-4">Histórico de Vendas</h1>
-                <div style="width: 98%;padding-left: 10%;" class="vendaBox">
-                    <div id="vendatx">
-                        <div style="width: 91%; margin-top: 6%;" class="row">
-                            <div class="col-1 bdrcampos">ID</div>
-                            <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
-                                Data Hora</div>
-                        </div>
+                <h1 class="mt-4">Gráfico de Produtos</h1>
+                <div style="padding-left: 5%;" class="vendaBox">
+                    <div id="prdtg">
+                        <div style="height: 500px;width: 98%;margin-top: 6%;" class="row">
+                            <div class="col"></div>
 
+
+
+                            <div class="col-1">
+                                <div style="background-color: white;width:100%;height: 70%;"></div>
+                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
+                            </div>
+                            <div class="col"></div>
+
+
+
+
+
+                            <div class="col-1">
+                                <div style="background-color: white;width:100%;height: 70%;"></div>
+                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col-1">
+                                <div style="background-color: white;width:100%;height: 70%;"></div>
+                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col-1">
+                                <div style="background-color: white;width:100%;height: 70%;"></div>
+                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col-1">
+                                <div style="background-color: white;width:100%;height: 70%;"></div>
+                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
                     </div>
                 </div>
-                <!-- /#page-content-wrapper -->
-
             </div>
-            <!-- /#wrapper -->
 
-            <!-- Bootstrap core JavaScript -->
-            <script src="/vendor/jquery/jquery.min.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
 
-            <!-- Menu Toggle Script -->
-            <script>
-                $("#menu-toggle").click(function (e) {
-                    e.preventDefault();
-                    $("#wrapper").toggleClass("toggled");
-                });
-            </script>
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 
 </body>
 

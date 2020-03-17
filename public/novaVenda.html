@@ -28,7 +28,7 @@
       var idComp = document.getElementById("idinpt").value
       console.log('Recebendo...');
       console.log(idComp);
-      fetch(`http://192.168.12.123/getProduto/${idComp}`, {
+      fetch(`http://192.168.1.104/getProduto/${idComp}`, {
         method: 'get',
       }).then(function (response) {
         return response.json();
@@ -49,6 +49,7 @@
           document.getElementById('vendatx').innerHTML +=
             `<div style="width: 91%;" class="row">
               <div class="col-1 bdrcampos">${data.idproduto}</div>
+              <div class="col bdrcampos">${data.nome}</div>
               <div class="col-3 bdrcampos">${quant}</div>
               <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
               R$ ${valor}</div></div> `
@@ -131,6 +132,7 @@
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
       <div class="tpbt list-group list-group-flush">
         <a href="/listaV" class="list-group-item list-group-item-action bg-light">Lista de Vendas</a>
+        <a href="/graficoP" class="list-group-item list-group-item-action bg-light">Gráfico de Produtos</a>
         <a href="/" class="list-group-item list-group-item-action bg-light">Voltar</a>
       </div>
     </div>
@@ -177,6 +179,7 @@
           <div id="vendatx" style="margin-left: 10%;">
             <div style="width: 91%; margin-top: 1%;" class="row">
               <div class="col-1 bdrcampos">ID</div>
+              <div class="col bdrcampos">Nome</div>
               <div class="col-3 bdrcampos">Quantidade</div>
               <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
                 Valor Total</div>
