@@ -86,7 +86,7 @@ app.get('/getListaV', function (req, res) {
 });
 
 app.get('/getgraficop', function (req, res) {
-    connection.query('select (quantidade * 100)/(select sum(quantidade)from item_venda)as porc from item_venda group by produto_id order by porc desc;',
+    connection.query('select (select nome from produto where idproduto = produto_id)as nomeP, (quantidade * 100)/(select sum(quantidade)from item_venda)as porc from item_venda group by produto_id order by porc desc;',
         function (error, results, fields) {
             if (error)
                 res.json;

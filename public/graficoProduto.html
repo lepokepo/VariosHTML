@@ -26,8 +26,28 @@
                 return response.json();
             }).then(function (data) {
                 console.log('Retorno:', data);
+                var cont = 0;
+                var outros = 0;
                 data.forEach(element => {
-                    document.getElementById('prdtg').innerHTML += `  `;
+                    if (cont <= 4) {
+                        var porcCima = 100 - element.porc
+                        outros += element.porc
+                        document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                                <div style="background-color: rgb(255, 255, 255);width:100%;height: ${porcCima}%;"></div>
+                                <span>${element.porc}%</span>
+                                <div style="background-color: rgb(17, 220, 108);width:100%;height: ${element.porc}%;">${element.nomeP}</div>
+                            </div>
+                             `;
+                        cont++;
+                    } else {
+
+                        document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                                <div style="background-color: rgb(255, 255, 255);width:100%;height: ${outros}%;"></div>
+                                <span>${(100 - outros)}%</span>
+                                <div style="background-color: rgb(17, 220, 108);width:100%;height: ${(100 - outros)}%;">Outros</div>
+                            </div>
+                             `
+                    }
 
                 });
             });
@@ -81,7 +101,7 @@
 
 </head>
 
-<body onload="receberServ()">
+<body onload="criaGrafico()">
 
     <div class="d-flex" id="wrapper">
 
@@ -116,42 +136,11 @@
             <div class="container-fluid">
                 <h1 class="mt-4">Gráfico de Produtos</h1>
                 <div style="padding-left: 5%;" class="vendaBox">
-                    <div id="prdtg">
-                        <div style="height: 500px;width: 98%;margin-top: 6%;" class="row">
-                            <div class="col"></div>
+                    <div>
+                        <div id="prdtg" style="height: 380px;width: 98%;margin-top: 6%;padding-bottom: 2.4%;"
+                            class="row">
 
 
-
-                            <div class="col-1">
-                                <div style="background-color: white;width:100%;height: 70%;"></div>
-                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
-                            </div>
-                            <div class="col"></div>
-
-
-
-
-
-                            <div class="col-1">
-                                <div style="background-color: white;width:100%;height: 70%;"></div>
-                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
-                            </div>
-                            <div class="col"></div>
-                            <div class="col-1">
-                                <div style="background-color: white;width:100%;height: 70%;"></div>
-                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
-                            </div>
-                            <div class="col"></div>
-                            <div class="col-1">
-                                <div style="background-color: white;width:100%;height: 70%;"></div>
-                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
-                            </div>
-                            <div class="col"></div>
-                            <div class="col-1">
-                                <div style="background-color: white;width:100%;height: 70%;"></div>
-                                <div style="background-color: aqua;width:100%;height: 30%;"></div>
-                            </div>
-                            <div class="col"></div>
                         </div>
                     </div>
                 </div>

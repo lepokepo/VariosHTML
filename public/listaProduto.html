@@ -31,7 +31,7 @@
           document.getElementById('prdtx').innerHTML += `<div style="width: 98%" class="row"> 
             <div class="col-1 bdrcampos">${element["idproduto"]}</div> 
             <div class="col bdrcampos">${element["nome"]}</div> 
-            <div class=" col-2 bdrcampos">R$ ${element["valor"]}</div>
+            <div class=" col-2 bdrcampos">R$ ${(element["valor"]).toLocaleString("pt-BR")}</div>
             <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-2 bdrcampos">
               <button style="float:right; border-radius: 1px !important;"
               type="button" onclick="" class="btn button">Del</button>
