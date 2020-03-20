@@ -17,6 +17,29 @@
   <link href="/css/simple-sidebar.css" rel="stylesheet">
 
   <script>
+
+    function deletaProd(e) {
+      console.log('Recebendo...');
+      fetch(`http://localhost/delProd/${e}`, {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log('Retorno:', data);
+      });
+      document.getElementById('prdtx').innerHTML = `<div style="width: 98%; padding-top: 7%;" class="row">
+              <div class="margin col-1 bdrcampos">ID</div>
+              <div class=" margin col bdrcampos">Nome</div>
+              <div class="amrgin col-2 bdrcampos">Preço
+              </div>
+              <div style="border-right: 1px solid rgb(46, 41, 41)" class=" col-2 bdrcampos">Ações
+              </div>`
+      receberServ();
+    }
+
     function receberServ() {
 
       console.log('Recebendo...');
@@ -34,16 +57,11 @@
             <div class=" col-2 bdrcampos">R$ ${(element["valor"]).toLocaleString("pt-BR")}</div>
             <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-2 bdrcampos">
               <button style="float:right; border-radius: 1px !important;"
-              type="button" onclick="" class="btn button">Del</button>
-              <button style="float:right; border-radius: 1px !important;"
-              type="button" onclick="" class="btn button">Edt</button>
+              type="button" onclick="deletaProd(${element["idproduto"]})" class="btn button">Del</button>
+              <a href="/edtProduto/${element["idproduto"]}" style="float:right; border-radius: 1px !important;"
+              type="button"  onclick="" class="btn button">Edt</a>
               </div>
             </div>`;
-
-
-          // document.getElementById('actx').innerHTML += `<div><span><button style="float:right; border-radius: 1px !important;"
-          //   type="button" onclick="" class="btn button">Delete</button>  </span></div>`;
-
         });
       });
 

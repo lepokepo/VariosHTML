@@ -19,6 +19,7 @@
   <script>
     let total = 0;
     let arrayObj = [];
+
     function mostrarTabela() {
       let objetoto = {
         "produto_id": "",
@@ -28,7 +29,7 @@
       var idComp = document.getElementById("idinpt").value
       console.log('Recebendo...');
       console.log(idComp);
-      fetch(`http://192.168.1.104/getProduto/${idComp}`, {
+      fetch(`http://localhost/getProduto/${idComp}`, {
         method: 'get',
       }).then(function (response) {
         return response.json();
@@ -62,11 +63,6 @@
       });
 
     }
-
-    function postServer() {
-      arrayObj
-    }
-
 
   </script>
 

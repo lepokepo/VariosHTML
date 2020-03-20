@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gráfico de Produtos</title>
+    <title>Gráfico de Produtos mais Vendidos</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@
         function criaGrafico() {
 
             console.log('Recebendo...');
-            fetch('http://192.168.1.104/getgraficop', {
+            fetch('http://localhost/getgraficop', {
                 method: 'get',
             }).then(function (response) {
                 return response.json();

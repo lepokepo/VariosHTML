@@ -43,6 +43,19 @@ app.post('/postProd', function (req, res) {
     });
 });
 
+app.delete('/delProd/:id', function (req, res) {
+    console.log(req.params)
+    var aidi = req.params.id
+    connection.query(`delete from produto where idproduto = ${aidi}`, function (error, results, fields) {
+        if (error)
+            return res.send(error);
+        res.json({
+            id: results.insertId
+        });
+        console.log('executou /delProd');
+    });
+});
+
 app.get('/getListaP', function (req, res) {
     connection.query('select * from produto',
         function (error, results, fields) {
@@ -101,6 +114,11 @@ app.get('/getgraficop', function (req, res) {
 
 app.use('/adiciona', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/cadastro.html'));
+
+})
+
+app.use('/edtProduto', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/edtProduto.html'));
 
 })
 
