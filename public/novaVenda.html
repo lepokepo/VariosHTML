@@ -22,8 +22,6 @@
 
     function deletaLista(n, valor) {
       document.getElementById(n).remove(document.getElementById(n));
-      console.log(total);
-      console.log(valor);
 
       total = total - valor
       document.getElementById("valorftx").value = "R$ " + total.toLocaleString("pt-BR");
