@@ -20,7 +20,17 @@
     let total = 0;
     let arrayObj = [];
 
+    function deletaLista(n, valor) {
+      document.getElementById(n).remove(document.getElementById(n));
+      console.log(total);
+      console.log(valor);
+
+      total = total - valor
+      document.getElementById("valorftx").value = "R$ " + total.toLocaleString("pt-BR");
+    }
+    var idDiv = 0;
     function mostrarTabela() {
+      idDiv++;
       let objetoto = {
         "produto_id": "",
         "quantidade": 0,
@@ -31,35 +41,53 @@
       console.log(idComp);
       fetch(`http://localhost/getProduto/${idComp}`, {
         method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        },
       }).then(function (response) {
-        return response.json();
+        return response.json()
+
+      }).catch(function (error) {
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
       }).then(function (data) {
         console.log('Retorno:', data);
-        console.log(data);
-        if (data.idproduto == idComp) {
-          let quant = parseFloat(document.getElementById("qntinpt").value)
-          let valor = quant * parseFloat(data.valor)
-          total += valor
+        if (data != undefined) {
+          if (data.idproduto == idComp) {
+            let quant = parseFloat(document.getElementById("qntinpt").value)
+            let valor = quant * parseFloat(data.valor)
+            total += valor
 
-          objetoto.produto_id = data.idproduto;
-          objetoto.quantidade = quant;
-          objetoto.valor_item = valor;
+            objetoto.produto_id = data.idproduto;
+            objetoto.quantidade = quant;
+            objetoto.valor_item = valor;
 
-          arrayObj.push(objetoto);
+            arrayObj.push(objetoto);
 
-          document.getElementById('vendatx').innerHTML +=
-            `<div style="width: 91%;" class="row">
+            document.getElementById('vendatx').innerHTML +=
+              `<div id="${idDiv}" style="width: 91%;" class="row">
               <div class="col-1 bdrcampos">${data.idproduto}</div>
               <div class="col bdrcampos">${data.nome}</div>
               <div class="col-3 bdrcampos">${quant}</div>
-              <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
-              R$ ${valor}</div></div> `
+              <div class="col bdrcampos">
+              R$ ${valor.toLocaleString("pt-BR")}</div>
+              <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-1 bdrcampos">
+              <button style="float:right; border-radius: 1px !important;"
+              type="button" onclick="deletaLista(${idDiv}, ${valor})" class="btn button">Del</button>
+              </div></div> `
 
-        } else {
-          console.log("nao achou produto")
+          } else {
+            console.log("erradito")
+
+          }
+          document.getElementById("valorftx").value = "R$ " + total.toLocaleString("pt-BR");
         }
-        document.getElementById("valorftx").value = total;
-
       });
 
     }
@@ -67,6 +95,92 @@
   </script>
 
   <style>
+    #snackbar {
+      visibility: hidden;
+      /* Hidden by default. Visible on click */
+      min-width: 250px;
+      /* Set a default minimum width */
+      margin-left: -125px;
+      /* Divide value of min-width by 2 */
+      background-color: rgb(17, 220, 108);
+      /* Black background color */
+      color: rgb(255, 255, 255);
+      /* White text color */
+      text-align: center;
+      /* Centered text */
+      border-radius: 2px;
+      /* Rounded borders */
+      padding: 16px;
+      /* Padding */
+      position: fixed;
+      /* Sit on top of the screen */
+      z-index: 1;
+      /* Add a z-index if needed */
+      left: 50%;
+      /* Center the snackbar */
+      bottom: 30px;
+      /* 30px from the bottom */
+    }
+
+    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+    #snackbar.show {
+      visibility: visible;
+      /* Show the snackbar */
+      /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    /* Animations to fade the snackbar in and out */
+    @-webkit-keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+
+    @-webkit-keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
     .redond {
       border-radius: 50%;
       max-width: 100%;
@@ -157,7 +271,7 @@
             <input id="idinpt" placeholder="ID" type="number" min=0 style="border-right:  1px solid rgb(46, 41, 41) !important;
               border-right: 0px solid rgb(255, 255, 255) !important;" class="col-1 bdrcampos">
 
-            <input id="qntinpt" placeholder="Quantidade" type="number" min=1
+            <input id="qntinpt" placeholder="Quantidade" type="number" min=1 value="1"
               style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-2 bdrcampos">
 
             <button style="border-radius: 1px !important;margin-left: 1%;" type="button" onclick="mostrarTabela()"
@@ -167,8 +281,8 @@
         </div>
 
         <div class="vendaBox">
-          <div style="margin-left: 5.5%;width: 91%;" class="pedin row">
-            <input class="col-3" type="text" id="valorftx" placeholder="Valor Final" readonly>
+          <div style="float: right;margin-right: 1%;width: 40%;" class="pedin row">
+            <input style="min-width: 60%;" class="col-3" type="text" id="valorftx" placeholder="Valor Final" readonly>
             <button style="margin-left: 1%;border-radius: 1px !important;" type="button" onclick=""
               class="btn button">Finalizar</button>
           </div>
@@ -177,14 +291,13 @@
               <div class="col-1 bdrcampos">ID</div>
               <div class="col bdrcampos">Nome</div>
               <div class="col-3 bdrcampos">Quantidade</div>
-              <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
-                Valor Total</div>
+              <div class="col bdrcampos">Valor Total</div>
+              <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-1 bdrcampos">Ações</div>
             </div>
           </div>
         </div>
-
+        <div id="snackbar">Produto não encontrado</div>
       </div>
-
     </div>
   </div>
   <!-- /#page-content-wrapper -->

@@ -43,8 +43,11 @@
     function receberServ() {
 
       console.log('Recebendo...');
-      fetch('http://192.168.1.104/getListaP', {
+      fetch('http://localhost/getListaP', {
         method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        },
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
