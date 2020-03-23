@@ -29,18 +29,47 @@ const path = require('path');
 
 //Rotas
 app.post('/postProd', function (req, res) {
-    console.log(req.body)
-    var nomeProd = req.body.nomeP
-    var valorProd = req.body.valorP
-    connection.query(`insert into produto(nome, valor) values('${nomeProd}', '${valorProd}')`, function (error, results, fields) {
-        if (error)
-            return res.send(error);
+    if (req.body.nomeP.length >= 2) {
+        var nomeProd = req.body.nomeP
+        if (req.body.valorP != "") {
+            var fValor = parseFloat(req.body.valorP)
+            if (fValor > 0) {
+                var valorProd = req.body.valorP
+                connection.query(`insert into produto(nome, valor) values('${nomeProd}', '${valorProd}')`, function (error, results, fields) {
+                    res.send({ res: "Produto Inserido!" })
+                    console.log('executou /postProd');
+                });
+            } else {
+                res.send({ res: "Valor inválido" })
+            }
+        } else {
+            res.send({ res: "Valor inválido" })
+        }
+    } else {
+        res.send({ res: "Nome inválido" })
+    }
+});
 
-        res.json({
-            id: results.insertId
-        });
-        console.log('executou /postProd');
-    });
+app.patch('/updateProduto', function (req, res) {
+    if (req.body.nomeA.length >= 2) {
+        var nomeProd = req.body.nomeA
+        if (req.body.valorA != "") {
+            var fValor = parseFloat(req.body.valorA)
+            if (fValor > 0) {
+                var valorProd = req.body.valorA
+                connection.query(`update produto set nome = ${nomeProd}, valor=${valorProd} where idproduto = ${idA}`, function (error, results, fields) {
+                    res.send({ res: "Produto Atualizado!" })
+                    console.log('executou /postProd');
+                });
+            } else {
+                res.send({ res: "Valor inválido" })
+            }
+        } else {
+            res.send({ res: "Valor inválido" })
+        }
+    } else {
+        res.send({ res: "Nome inválido" })
+    }
 });
 
 app.delete('/delProd/:id', function (req, res) {

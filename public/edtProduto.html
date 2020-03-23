@@ -6,8 +6,6 @@
     <!-- Bootstrap core JavaScript -->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-    <script src="jquery.maskMoney.js" type="text/javascript"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,22 +21,18 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
-        function send() {
-            let vari = {
-                "nomeP": document.getElementById("nometx").value,
-                "valorP": document.getElementById("valortx").value,
+        function att() {
+            let pat = {
+                "idA": idComp,
+                "nomeA": document.getElementById("nometx").value,
+                "valorA": document.getElementById("valortx").value,
             }
-            postProdServer(vari)
         }
 
-        function mascara() {
-            document.getElementById("valortx").value.maskMoney({ prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ',', affixesStay: false })
-        }
-
-        function postProdServer(jeison) {
-            console.log('Posting...');
-            fetch('http://localhost/postProd', {
-                method: 'post',
+        function updateProd(jeison) {
+            console.log('Updating...');
+            fetch('http://localhost/updateProduto', {
+                method: 'update',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -47,8 +41,41 @@
                 return response.json();
             }).then(function (data) {
                 console.log('Retorno:', data);
+                var x = document.getElementById("snackbar");
+                x.innerHTML = data.res;
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            }).catch(function (erroo) {
+                var x = document.getElementById("snackbar");
+                x.innerHTML = "deu muita merda fio";
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
             });
         }
+
+        function camposProduto() {
+            var idComp = (window.location.href).split("/")
+            idComp = idComp[idComp.length - 1]
+            console.log('Recebendo...');
+            console.log(idComp);
+            fetch(`http://localhost/getProduto/${idComp}`, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(function (response) {
+                return response.json()
+
+            }).then(function (data) {
+                console.log('Retorno:', data);
+                document.getElementById("nometx").value = data.nome;
+                document.getElementById("valortx").value = data.valor;
+            });
+
+        }
+
+
+
     </script>
 
     <style>
@@ -88,7 +115,7 @@
 
 </head>
 
-<body>
+<body onload="camposProduto()">
 
     <div class="d-flex" id="wrapper">
 
@@ -127,7 +154,7 @@
                     <span>Valor: </span><br>
                     <input onfocusout="mascara()" id="valortx" type="text"><br>
                     <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;" type="button"
-                        onclick="send()" class="btn button">Add</button>
+                        onclick="updateProd()" class="btn button">Save</button>
                 </div>
 
             </div>
