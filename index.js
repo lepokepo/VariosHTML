@@ -28,6 +28,12 @@ const path = require('path');
 
 
 //Rotas
+app.post('/addVenda')
+
+app.post('/postitem', function (req, res) {
+    console.log(req.body);
+});
+
 app.post('/postProd', function (req, res) {
     if (req.body.nomeP.length >= 2) {
         var nomeProd = req.body.nomeP
@@ -59,7 +65,7 @@ app.patch('/updateProduto', function (req, res) {
                 var valorProd = req.body.valorA
                 connection.query(`update produto set nome = ${nomeProd}, valor=${valorProd} where idproduto = ${idA}`, function (error, results, fields) {
                     res.send({ res: "Produto Atualizado!" })
-                    console.log('executou /postProd');
+                    console.log('executou /updateProduto');
                 });
             } else {
                 res.send({ res: "Valor inválido" })
@@ -122,6 +128,19 @@ app.get('/getListaV', function (req, res) {
                 });
                 res.json(results);
                 console.log('executou /getListaV')
+            }
+
+        })
+});
+
+app.get('/getmaxid', function (req, res) {
+    connection.query('select max(idvenda)as maxid from venda',
+        function (error, results, fields) {
+            if (error)
+                res.json;
+            else {
+                res.json(results);
+                console.log('executou /getmaxid')
             }
 
         })

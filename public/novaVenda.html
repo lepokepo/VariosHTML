@@ -25,12 +25,52 @@
 
       total = total - valor
       document.getElementById("valorftx").value = "R$ " + total.toLocaleString("pt-BR");
+
+      delete arrayObj[n - 1]
+      console.log();
+
     }
+
+    function finalizaVenda() {
+      //pega id da ultima venda e add +1
+      // console.log("LISTA DEMONHO: " + arrayObj);
+
+      // var maxId;
+      // fetch('http://localhost/getmaxid', {
+      //   method: 'get',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      // }).then(function (response) {
+      //   return response.json();
+      // }).then(function (data) {
+      //   console.log('Retorno:', data);
+      //   maxId = data.maxid + 1
+      // });
+      // for (i = 0; i < arrayObj.length; i++)
+      //   console.log(JSON.stringify(arrayObj));
+
+
+      //post
+      fetch('http://localhost/postitem', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(arrayObj)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log('Retorno:', data);
+      });
+    }
+
     var idDiv = 0;
     function mostrarTabela() {
       idDiv++;
       let objetoto = {
-        "produto_id": "",
+        "produto_id": 0,
+        "venda_id": 0,
         "quantidade": 0,
         "valor_item": 0,
       };
@@ -47,10 +87,8 @@
 
       }).catch(function (error) {
         var x = document.getElementById("snackbar");
-
         // Add the "show" class to DIV
         x.className = "show";
-
         // After 3 seconds, remove the show class from DIV
         setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
@@ -65,7 +103,6 @@
             objetoto.produto_id = data.idproduto;
             objetoto.quantidade = quant;
             objetoto.valor_item = valor;
-
             arrayObj.push(objetoto);
 
             document.getElementById('vendatx').innerHTML +=
@@ -82,9 +119,10 @@
 
           } else {
             console.log("erradito")
-
           }
           document.getElementById("valorftx").value = "R$ " + total.toLocaleString("pt-BR");
+          console.log(arrayObj);
+
         }
       });
 
@@ -281,8 +319,8 @@
         <div class="vendaBox">
           <div style="float: right;margin-right: 1%;width: 40%;" class="pedin row">
             <input style="min-width: 60%;" class="col-3" type="text" id="valorftx" placeholder="Valor Final" readonly>
-            <button style="margin-left: 1%;border-radius: 1px !important;" type="button" onclick=""
-              class="btn button">Finalizar</button>
+            <button style="margin-left: 1%;border-radius: 1px !important;" type="button"
+              onclick="finalizaVenda(arrayObj)" class="btn button">Finalizar</button>
           </div>
           <div id="vendatx" style="margin-left: 10%;">
             <div style="width: 91%; margin-top: 1%;" class="row">

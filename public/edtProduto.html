@@ -54,8 +54,10 @@
         }
 
         function camposProduto() {
+            //pega o link,  bota numa array
             var idComp = (window.location.href).split("/")
             idComp = idComp[idComp.length - 1]
+            //pega a ultima posicao do array
             console.log('Recebendo...');
             console.log(idComp);
             fetch(`http://localhost/getProduto/${idComp}`, {
@@ -65,7 +67,6 @@
                 },
             }).then(function (response) {
                 return response.json()
-
             }).then(function (data) {
                 console.log('Retorno:', data);
                 document.getElementById("nometx").value = data.nome;
