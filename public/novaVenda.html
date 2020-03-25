@@ -31,26 +31,8 @@
 
     }
 
+
     function finalizaVenda() {
-      //pega id da ultima venda e add +1
-      // console.log("LISTA DEMONHO: " + arrayObj);
-
-      // var maxId;
-      // fetch('http://localhost/getmaxid', {
-      //   method: 'get',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      // }).then(function (response) {
-      //   return response.json();
-      // }).then(function (data) {
-      //   console.log('Retorno:', data);
-      //   maxId = data.maxid + 1
-      // });
-      // for (i = 0; i < arrayObj.length; i++)
-      //   console.log(JSON.stringify(arrayObj));
-
-
       //post
       fetch('http://localhost/postitem', {
         method: 'post',
@@ -68,11 +50,9 @@
     var idDiv = 0;
     function mostrarTabela() {
       idDiv++;
-      let objetoto = {
+      let item = {
         "produto_id": 0,
-        "venda_id": 0,
         "quantidade": 0,
-        "valor_item": 0,
       };
       var idComp = document.getElementById("idinpt").value
       console.log('Recebendo...');
@@ -100,10 +80,8 @@
             let valor = quant * parseFloat(data.valor)
             total += valor
 
-            objetoto.produto_id = data.idproduto;
-            objetoto.quantidade = quant;
-            objetoto.valor_item = valor;
-            arrayObj.push(objetoto);
+            item.produto_id = data.idproduto;
+            item.quantidade = quant;
 
             document.getElementById('vendatx').innerHTML +=
               `<div id="${idDiv}" style="width: 91%;" class="row">
@@ -117,6 +95,7 @@
               type="button" onclick="deletaLista(${idDiv}, ${valor})" class="btn button">Del</button>
               </div></div> `
 
+            arrayObj.push(item);
           } else {
             console.log("erradito")
           }

@@ -31,8 +31,39 @@ const path = require('path');
 app.post('/addVenda')
 
 app.post('/postitem', function (req, res) {
-    console.log(req.body);
+    let lista = req.body;
+    let venda_id;
+    connection.query(`insert into venda(dt_time) values(current_time)`, function (error, results, fields) {
+        if (error) {
+            console.log("Erro 1: ", error);
+        } else {
+            console.log('Passou 1');
+            venda_id = results.insertId
+
+            lista.forEach(i => {
+                i.vendaId = venda_id
+                connection.query(`select valor from produto where idproduto = ${i.produto_id}`, function (error, results, fields) {
+                    if (error) {
+                        console.log("Erro 2: ", error);
+                    } else {
+                        let valo = results[0].valor * i.quantidade
+                        i.valor_total = valo
+                        console.log(i);
+                        connection.query(`insert into item_venda(produto_id, venda_id, quantidade, item_valor) values(?, ?, ?, ?)`, [i.produto_id, i.vendaId, i.quantidade, i.valor_total], function (error, results, fields) {
+                            if (error) {
+                                console.log("deu pau rapaz", error);
+                            } else {
+                                console.log("certito");
+
+                            }
+                        })
+                    }
+                });
+            });
+        }
+    })
 });
+
 
 app.post('/postProd', function (req, res) {
     if (req.body.nomeP.length >= 2) {
@@ -56,14 +87,21 @@ app.post('/postProd', function (req, res) {
     }
 });
 
-app.patch('/updateProduto', function (req, res) {
+app.post('/updateProduto', function (req, res) {
+    console.log(req.body);
+
     if (req.body.nomeA.length >= 2) {
         var nomeProd = req.body.nomeA
         if (req.body.valorA != "") {
             var fValor = parseFloat(req.body.valorA)
             if (fValor > 0) {
                 var valorProd = req.body.valorA
-                connection.query(`update produto set nome = ${nomeProd}, valor=${valorProd} where idproduto = ${idA}`, function (error, results, fields) {
+                connection.query(`update produto set nome=?, valor=? where idproduto=?`, [nomeProd, valorProd, req.body.idA], function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+
+                        return res.send(error);
+                    }
                     res.send({ res: "Produto Atualizado!" })
                     console.log('executou /updateProduto');
                 });
@@ -128,19 +166,6 @@ app.get('/getListaV', function (req, res) {
                 });
                 res.json(results);
                 console.log('executou /getListaV')
-            }
-
-        })
-});
-
-app.get('/getmaxid', function (req, res) {
-    connection.query('select max(idvenda)as maxid from venda',
-        function (error, results, fields) {
-            if (error)
-                res.json;
-            else {
-                res.json(results);
-                console.log('executou /getmaxid')
             }
 
         })
