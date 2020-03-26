@@ -18,7 +18,6 @@
 
     <script>
         function receberServ() {
-
             console.log('Recebendo...');
             fetch('http://localhost/getListaV', {
                 method: 'get',
@@ -29,9 +28,61 @@
                 data.forEach(element => {
                     document.getElementById('vendatx').innerHTML += `<div style="width: 91%" class="row"> 
             <div class="col-1 bdrcampos">${element["idvenda"]}</div> 
+            <div class="col-2 bdrcampos">${element["quantidade"]}</div>
+            <div class="col bdrcampos">R$ ${element["valorTotal"].toLocaleString('pt-BR')}</div>
             <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">${element["dt_time"]}</div> `;
                 });
             });
+
+        }
+
+        function buscaVenda() {
+            let dataDe = document.getElementById("anoD").value + '-' + document.getElementById("mesD").value + '-' + document.getElementById("diaD").value
+            let dataAte = document.getElementById("anoA").value + '-' + document.getElementById("mesA").value + '-' + document.getElementById("diaA").value
+
+            fetch(`http://localhost/getvendadata/${dataDe}/${dataAte}`, {
+                method: 'get',
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                console.log('Retorno:', data);
+                document.getElementById('vendatx').innerHTML = `
+                <div id="vendatx">
+                        <div style="width: 91%; margin-top: 6%; text-align: center;" class="row">
+                            <div class="col">
+                                <span>De</span>
+                                <input id="diaD" placeholder="Dia" min=1 max=31 type="number">
+                                <input id="mesD" placeholder="Mês" min=1 max=12 type="number">
+                                <input id="anoD" placeholder="Ano" min=1 max=9999 type="number">
+                            </div>
+                            <div class="col">
+                                <span>Até</span>
+                                <input id="diaA" placeholder="Dia" min=1 max=31 type="number">
+                                <input id="mesA" placeholder="Mês" min=1 max=12 type="number">
+                                <input id="anoA" placeholder="Ano" min=1 max=9999 type="number">
+                            </div>
+                            <div class="col-1">
+                                <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;"
+                                    type="button" onclick="buscaVenda()" class="btn button">Buscar</button>
+                            </div>
+                        </div>
+                <div style="width: 91%; margin-top: 4%; border-bottom: none!important; margin-bottom:0px!important;" class="row">
+                    <div class="col-1 bdrcampos">ID</div>
+                    <div class="col-2 bdrcampos">Quantidade</div>
+                    <div class="col bdrcampos">Valor</div>
+                    <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
+                        Data Hora</div>
+                </div >`
+
+                data.forEach(element => {
+                    document.getElementById('vendatx').innerHTML += `<div style="width: 91%" class="row"> 
+            <div class="col-1 bdrcampos">${element["idvenda"]}</div> 
+            <div class="col-2 bdrcampos">${element["quantidade"]}</div>
+            <div class="col bdrcampos">R$ ${element["valorTotal"].toLocaleString('pt-BR')}</div>
+            <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">${element["dt_time"]}</div> `;
+                });
+            });
+
 
         }
 
@@ -108,22 +159,39 @@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
-
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-
             </nav>
 
             <div class="container-fluid">
                 <h1 class="mt-4">Histórico de Vendas</h1>
                 <div style="width: 98%;padding-left: 10%;" class="vendaBox">
                     <div id="vendatx">
-                        <div style="width: 91%; margin-top: 6%;" class="row">
+                        <div style="width: 91%; margin-top: 6%; text-align: center;" class="row">
+                            <div class="col">
+                                <span>De</span>
+                                <input id="diaD" placeholder="Dia" min=1 max=31 type="number">
+                                <input id="mesD" placeholder="Mês" min=1 max=12 type="number">
+                                <input id="anoD" placeholder="Ano" min=1 max=9999 type="number">
+                            </div>
+                            <div class="col">
+                                <span>Até</span>
+                                <input id="diaA" placeholder="Dia" min=1 max=31 type="number">
+                                <input id="mesA" placeholder="Mês" min=1 max=12 type="number">
+                                <input id="anoA" placeholder="Ano" min=1 max=9999 type="number">
+                            </div>
+                            <div class="col-1">
+                                <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;"
+                                    type="button" onclick="buscaVenda()" class="btn button">Buscar</button>
+                            </div>
+                        </div>
+                        <div style="width: 91%; margin-top: 4%;" class="row">
                             <div class="col-1 bdrcampos">ID</div>
+                            <div class="col-2 bdrcampos">Quantidade</div>
+                            <div class="col bdrcampos">Valor</div>
                             <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">
                                 Data Hora</div>
                         </div>

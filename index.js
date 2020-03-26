@@ -38,10 +38,10 @@ app.post('/postitem', function (req, res) {
             console.log("Erro 1: ", error);
         } else {
             console.log('Passou 1');
-            venda_id = results.insertId
+            console.log(results.insertId);
 
             lista.forEach(i => {
-                i.vendaId = venda_id
+                i.vendaId = results.insertId
                 connection.query(`select valor from produto where idproduto = ${i.produto_id}`, function (error, results, fields) {
                     if (error) {
                         console.log("Erro 2: ", error);
@@ -155,14 +155,32 @@ app.get('/getProduto/:id', function (req, res) {
         })
 });
 
-app.get('/getListaV', function (req, res) {
-    connection.query('select * from venda order by idvenda desc',
+app.get('/getvendadata/:datad/:dataa', function (req, res) {
+    console.log(req.params.datad)
+    console.log(req.params.dataa)
+    console.log(`select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda) where venda.dt_time between ${req.params.datad} and ${req.params.dataa} group by venda.idvenda order by venda.dt_time desc`);
+    connection.query(`select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda) where venda.dt_time between ? and ? group by venda.idvenda order by venda.dt_time desc`, [req.params.datad, req.params.dataa],
         function (error, results, fields) {
             if (error)
                 res.json;
             else {
                 results.forEach(element => {
-                    element["dt_time"] = moment(element["dt_time"]).format('lll')
+                    element["dt_time"] = moment(element["dt_time"]).format('llll')
+                });
+                res.json(results);
+            }
+
+        })
+});
+
+app.get('/getListaV', function (req, res) {
+    connection.query('select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda)where venda.dt_time > current_date group by venda.idvenda order by venda.dt_time desc',
+        function (error, results, fields) {
+            if (error)
+                res.json;
+            else {
+                results.forEach(element => {
+                    element["dt_time"] = moment(element["dt_time"]).format('llll')
                 });
                 res.json(results);
                 console.log('executou /getListaV')
@@ -172,7 +190,7 @@ app.get('/getListaV', function (req, res) {
 });
 
 app.get('/getgraficop', function (req, res) {
-    connection.query('select (select nome from produto where idproduto = produto_id)as nomeP, (quantidade * 100)/(select sum(quantidade)from item_venda)as porc from item_venda group by produto_id order by porc desc;',
+    connection.query('',
         function (error, results, fields) {
             if (error)
                 res.json;
