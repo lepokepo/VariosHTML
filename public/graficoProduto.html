@@ -26,27 +26,40 @@
                 return response.json();
             }).then(function (data) {
                 console.log('Retorno:', data);
+                var valorResto = data[0].valorTotal
+
                 var cont = 0;
                 var outros = 0;
+                var valorItem = 0;
                 data.forEach(element => {
-                    if (cont <= 4) {
-                        var porcCima = 100 - element.porc
-                        outros += element.porc
-                        document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                    if (cont != -1) {
+                        if (cont < 5) {
+                            valorItem = element.valorItem
+                            var porcCima = 100 - element.porc
+                            outros += element.porc
+                            document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
                                 <div style="background-color: rgb(255, 255, 255);width:100%;height: ${porcCima}%;"></div>
-                                <span>${element.porc}%</span>
-                                <div style="background-color: rgb(17, 220, 108);width:100%;height: ${element.porc}%;">${element.nomeP}</div>
-                            </div>
-                             `;
-                        cont++;
-                    } else {
-
-                        document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                                <span style="font-size:14px">${element.porc}%</span><br>
+                                <div style="background-color: rgb(17, 220, 108);width:100%;height: ${element.porc}%;">${element.nomeP}
+                                    <br>
+                                    <span style="font-size:14px">R$ ${valorItem.toLocaleString('pt-BR')}</span>
+                                    </div>
+                            </div>`;
+                            cont++;
+                            valorResto -= valorItem
+                        } else {
+                            document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
                                 <div style="background-color: rgb(255, 255, 255);width:100%;height: ${outros}%;"></div>
-                                <span>${(100 - outros)}%</span>
-                                <div style="background-color: rgb(17, 220, 108);width:100%;height: ${(100 - outros)}%;">Outros</div>
+                                <span>${(100 - outros)}%</span><br>
+                                
+                                <div style="background-color: rgb(17, 220, 108);width:100%;height: ${(100 - outros)}%;">Outros
+                                    <br>
+                                    <span>R$ ${valorResto.toLocaleString('pt-BR')}</span>
+                                    </div>
                             </div>
                              `
+                            cont = -1
+                        }
                     }
 
                 });
@@ -60,6 +73,7 @@
             border-radius: 50%;
             max-width: 100%;
             border: 3px solid rgb(46, 41, 41);
+
         }
 
         .letraNome {

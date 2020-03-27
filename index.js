@@ -190,14 +190,14 @@ app.get('/getListaV', function (req, res) {
 });
 
 app.get('/getgraficop', function (req, res) {
-    connection.query('',
+    connection.query('select (select nome from produto where produto_id = idproduto)as nomeP, round((sum(quantidade)*100)/(select sum(quantidade)from item_venda))as porc, sum(item_valor)as valorItem, round((select sum(item_valor) from item_venda))as valorTotal  from item_venda group by produto_id order by porc desc ',
         function (error, results, fields) {
             if (error)
                 res.json;
             else {
 
                 res.json(results);
-                console.log('executou /getListaV')
+                console.log('executou /getgraficop')
             }
 
         })
