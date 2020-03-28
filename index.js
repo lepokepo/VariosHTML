@@ -189,6 +189,28 @@ app.get('/getListaV', function (req, res) {
         })
 });
 
+app.get('/getgraficov', function (req, res) {
+    connection.query(`
+    select extract(day from v.dt_time)as mes, round(sum(item_valor))as valorTotal from item_venda 
+    join venda as v on (idvenda = venda_id)
+    where extract(year from v.dt_time) = extract(year from current_date)
+    group by mes`,
+        function (error, results, fields) {
+            if (error)
+                res.json;
+            else {
+                console.log(results);
+
+                // results.forEach(element => {
+                //     element["mes"] = moment(element["mes"]).format('Do')
+                // });
+                res.json(results);
+                console.log('executou /getgraficov')
+            }
+
+        })
+});
+
 app.get('/getgraficop', function (req, res) {
     connection.query('select (select nome from produto where produto_id = idproduto)as nomeP, round((sum(quantidade)*100)/(select sum(quantidade)from item_venda))as porc, sum(item_valor)as valorItem, round((select sum(item_valor) from item_venda))as valorTotal  from item_venda group by produto_id order by porc desc ',
         function (error, results, fields) {
@@ -216,7 +238,13 @@ app.use('/edtProduto', function (req, res) {
 app.use('/novaVenda', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/novaVenda.html'));
 
+
 })
+app.use('/graficoVenda', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/graficoVenda.html'));
+
+})
+
 app.use('/listaP', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/listaProduto.html'));
 

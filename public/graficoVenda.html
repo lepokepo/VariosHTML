@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Gráfico de Produtos mais Vendidos</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/simple-sidebar.css" rel="stylesheet">
+
+    <script>
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var dataG = google.visualization.arrayToDataTable([
+
+            ]);
+            dataG.addColumn('Mês', 'Valor');
+            console.log('Recebendo...');
+            fetch('http://localhost/getgraficov', {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                console.log('Retorno:', data);
+                var i = 0
+                data.forEach(element => {
+                    // dataG.eg[i].c[0].v = element.mes
+                    // dataG.eg[i].c[1].v = element.valorTotal
+                    // i++
+
+                    dataG.addRows([element.mes, element.valorTotal])
+                });
+            })
+
+            console.log((dataG.eg));
+
+            var options = {
+                title: 'Vendas Mensais',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('prdtg'));
+
+            chart.draw(dataG, options);
+        }
+    </script>
+
+    <style>
+        .redond {
+            border-radius: 50%;
+            max-width: 100%;
+            border: 3px solid rgb(46, 41, 41);
+
+        }
+
+        .letraNome {
+            font-size: 15px !important;
+            font-weight: bold !important;
+        }
+
+        .bdr {
+            border-top: 1px solid rgb(46, 41, 41);
+            border-bottom: 1px solid rgb(46, 41, 41);
+        }
+
+        .bdrcampos {
+            border-top: 1px solid rgb(46, 41, 41);
+            border-left: 1px solid rgb(46, 41, 41) !important;
+        }
+
+
+        .vendaBox {
+            border: 2px solid rgb(46, 41, 41) !important;
+        }
+
+
+        .button:hover {
+            background-color: rgb(17, 220, 108);
+            transition-duration: 0.2s;
+            color: rgb(255, 255, 255);
+        }
+
+        .tpbt {
+            border-top: 1px solid rgb(46, 41, 41);
+            border-bottom: 1px solid rgb(46, 41, 41) !important;
+        }
+    </style>
+
+</head>
+
+<body onload="">
+
+    <div class="d-flex" id="wrapper">
+
+        <!-- Sidebar -->
+        <div style="width: 18%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
+            class="bg-light " id="sidebar-wrapper">
+            <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
+            <div class="letraNome sidebar-heading"> Luigi Pesone</div>
+            <div class="tpbt list-group list-group-flush">
+                <a href="/novaVenda" class="list-group-item list-group-item-action bg-light">Nova Venda</a>
+                <a href="/listaP" class="list-group-item list-group-item-action bg-light">Histórico de Vendas</a>
+                <a href="/" class="list-group-item list-group-item-action bg-light">Voltar</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Gráfico de Produtos</h1>
+                <div style="padding-left: 5%;" class="vendaBox">
+                    <div>
+                        <div id="prdtg" style="height: 380px;width: 100%;margin-top: 6%;padding-bottom: 2.4%;"
+                            class="row">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+</body>
+
+</html>
