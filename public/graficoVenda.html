@@ -32,7 +32,8 @@
             var dataG = google.visualization.arrayToDataTable([
 
             ]);
-            dataG.addColumn('Mês', 'Valor');
+            dataG.addColumn('number', 'Mes')
+            dataG.addColumn('number', 'Valor Total')
             console.log('Recebendo...');
             fetch('http://localhost/getgraficov', {
                 method: 'get',
@@ -49,7 +50,9 @@
                     // dataG.eg[i].c[1].v = element.valorTotal
                     // i++
 
-                    dataG.addRows([element.mes, element.valorTotal])
+                    dataG.addRows([
+                        [element.mes, element.valorTotal]
+                    ])
                 });
             })
 
@@ -122,7 +125,7 @@
             <div class="tpbt list-group list-group-flush">
                 <a href="/novaVenda" class="list-group-item list-group-item-action bg-light">Nova Venda</a>
                 <a href="/listaP" class="list-group-item list-group-item-action bg-light">Histórico de Vendas</a>
-                <a href="/" class="list-group-item list-group-item-action bg-light">Voltar</a>
+                <a href="/menu" class="list-group-item list-group-item-action bg-light">Voltar</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->

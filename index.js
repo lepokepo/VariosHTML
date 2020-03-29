@@ -28,7 +28,6 @@ const path = require('path');
 
 
 //Rotas
-app.post('/addVenda')
 
 app.post('/postitem', function (req, res) {
     let lista = req.body;
@@ -225,6 +224,22 @@ app.get('/getgraficop', function (req, res) {
         })
 });
 
+app.post('/validacao', function (req, res) {
+    if (req.body.nome != "" && req.body.nome != null && req.body.senha != "" && req.body.senha != null) {
+        connection.query(`select * from usuario where nome=? and senha=?`, [req.body.nome, req.body.senha],
+            function (error, results, fields) {
+                if (results.length != 0) {
+                    console.log(results);
+                    res.send({ "mensagem": "" })
+                } else {
+                    res.send({ "mensagem": "Nome ou Senha inválidos" })
+                    console.log('executou /validacao')
+                }
+
+            })
+    }
+});
+
 app.use('/adiciona', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/cadastro.html'));
 
@@ -257,6 +272,11 @@ app.use('/listaV', function (req, res) {
 
 app.use('/graficoP', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/graficoProduto.html'));
+
+})
+
+app.get('/menu', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public', 'menu.html'));
 
 })
 

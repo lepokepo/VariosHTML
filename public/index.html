@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Tela Principal</title>
+  <title>Login</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -16,7 +16,145 @@
   <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
 
+  <script>
+
+    function final() {
+      if (document.getElementById("nome").value != "" && document.getElementById("nome").value != null && document.getElementById("senha").value != "" && document.getElementById("nome").value != null) {
+        let user = {
+          "nome": document.getElementById("nome").value,
+          "senha": document.getElementById("senha").value,
+        }
+        validaSenha(user);
+      } else {
+        var mens = "Campos Inválidos"
+        snackShow(mens)
+
+      }
+    }
+
+    function snackShow(message) {
+      var x = document.getElementById("snackbar");
+      x.innerHTML = message;
+      x.className = "show";
+      setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+
+    function validaSenha(jeison) {
+      console.log('Posting...');
+      fetch('http://localhost/validacao', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jeison)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log('Retorno:', data);
+        console.log(data.mensagem)
+        if (data.mensagem == "") {
+          window.location.href = "http://localhost/menu";
+        } else {
+          snackShow(data.mensagem)
+        }
+
+      })
+    }
+
+  </script>
+
   <style>
+    #snackbar {
+      visibility: hidden;
+      /* Hidden by default. Visible on click */
+      min-width: 250px;
+      /* Set a default minimum width */
+      margin-left: -125px;
+      /* Divide value of min-width by 2 */
+      background-color: rgb(17, 220, 108);
+      /* Black background color */
+      color: rgb(255, 255, 255);
+      /* White text color */
+      text-align: center;
+      /* Centered text */
+      border-radius: 2px;
+      /* Rounded borders */
+      padding: 16px;
+      /* Padding */
+      position: fixed;
+      /* Sit on top of the screen */
+      z-index: 1;
+      /* Add a z-index if needed */
+      left: 50%;
+      /* Center the snackbar */
+      bottom: 30px;
+      /* 30px from the bottom */
+    }
+
+    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+    #snackbar.show {
+      visibility: visible;
+      /* Show the snackbar */
+      /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    /* Animations to fade the snackbar in and out */
+    @-webkit-keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+
+    @-webkit-keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
+    .vendaBox {
+      border: 2px solid rgb(46, 41, 41) !important;
+      height: 40%;
+    }
+
     .redond {
       border-radius: 50%;
       max-width: 100%;
@@ -51,59 +189,28 @@
   <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <div
-      style="width: 18%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
-      class="bg-light " id="sidebar-wrapper">
-      <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
-      <div class="letraNome sidebar-heading"> Luigi Pesone</div>
-      <div class="tpbt list-group list-group-flush">
-        <a href="/adiciona" class="bdr list-group-item list-group-item-action ">Novo Produto</a>
-        <a href="/listaP" class="bdr list-group-item list-group-item-action ">Lista de Produtos</a>
-        <a href="/novaVenda" class="bdr list-group-item list-group-item-action ">Nova Venda</a>
-        <a href="/listaV" class="bdr list-group-item list-group-item-action ">Lista de Vendas</a>
-        <a href="/graficoP" class="bdr list-group-item list-group-item-action ">Gráfico de Produtos</a>
-        <a href="/graficoVenda" class="bdr list-group-item list-group-item-action ">Gráfico de Vendas</a>
-      </div>
-    </div>
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="">Ajuda</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
       <div class="container-fluid">
-        <h1 class="mt-4">Menu</h1>
 
+        <div class="row" style="margin-top: 5%;">
+          <div class="col"></div>
+          <div class="col-3 vendaBox">
+            <h1 class="mt-4">Login</h1>
+            <form autocomplete="off">
+              <br>
+              <input id="nome" placeholder="Nome" maxlength="100" type="text"><br><br>
+              <input id="senha" placeholder="Senha" maxlength="100" type="password">
+              <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;" type="button"
+                onclick="final()" class="btn button">Login</button>
+            </form>
+          </div>
+          <div class="col"></div>
+        </div>
+        <div id="snackbar"></div>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
