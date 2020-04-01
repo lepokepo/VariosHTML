@@ -6,6 +6,8 @@
     <!-- Bootstrap core JavaScript -->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"
+        type="text/javascript"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,12 +26,18 @@
         //pega o link,  bota numa array
         var idComp = (window.location.href).split("/")
         idComp = idComp[idComp.length - 1]
+
         function att() {
             let pat = {
                 "idA": idComp,
                 "nomeA": document.getElementById("nometx").value,
                 "valorA": document.getElementById("valortx").value,
             }
+            pat.valorA = pat.valorA.replace("R$ ", "")
+            while (pat.valorA.includes(".")) {
+                pat.valorA = pat.valorA.replace(".", "")
+            }
+            pat.valorA = pat.valorA.replace(",", ".")
             updateProd(pat)
         }
 
@@ -48,12 +56,16 @@
                 var x = document.getElementById("snackbar");
                 x.innerHTML = data.res;
                 x.className = "show";
-                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
             }).catch(function (erroo) {
                 var x = document.getElementById("snackbar");
                 x.innerHTML = "deu muita merda fio";
                 x.className = "show";
-                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
             });
         }
 
@@ -71,13 +83,16 @@
             }).then(function (data) {
                 console.log('Retorno:', data);
                 document.getElementById("nometx").value = data.nome;
-                document.getElementById("valortx").value = data.valor;
+                document.getElementById("valortx").value = parseFloat(data.valor).toFixed(2);
+                $("#valortx").maskMoney({
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    symbolStay: true
+                });
             });
 
         }
-
-
-
     </script>
 
     <style>
@@ -109,6 +124,7 @@
         }
 
         /* Show the snackbar when clicking on a button (class added with JavaScript) */
+
         #snackbar.show {
             visibility: visible;
             /* Show the snackbar */
@@ -119,6 +135,7 @@
         }
 
         /* Animations to fade the snackbar in and out */
+
         @-webkit-keyframes fadein {
             from {
                 bottom: 0;
@@ -178,15 +195,14 @@
             font-weight: bold !important;
         }
 
-        .bdr {
-            border-top: 1px solid rgb(46, 41, 41);
-            border-bottom: 1px solid rgb(46, 41, 41) !important;
+        .bdr:hover {
+            background-color: rgb(46, 41, 41) !important;
+            color: rgb(255, 255, 255);
         }
 
         .vendaBox {
             border: 2px solid rgb(46, 41, 41) !important;
             padding: 3%;
-
         }
 
         .button:hover {
@@ -213,8 +229,8 @@
             <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
             <div class="letraNome sidebar-heading"> Luigi Pesone</div>
             <div class="tpbt list-group list-group-flush">
-                <a href="/adiciona" class=" list-group-item list-group-item-action bg-light">Novo Produto</a>
-                <a href="/listaP" class=" list-group-item list-group-item-action bg-light">Voltar</a>
+                <a href="/adiciona" class="bdr list-group-item list-group-item-action ">Novo Produto</a>
+                <a href="/listaP" class="bdr list-group-item list-group-item-action ">Voltar</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -238,9 +254,11 @@
                 <div style="padding-bottom: 4% !important;width: 22% !important;" class="vendaBox">
 
                     <span>Nome: </span><br>
-                    <input id="nometx" type="text"><br><br>
+                    <input placeholder="Dog Run" id="nometx" type="text">
+                    <br><br>
                     <span>Valor: </span><br>
-                    <input onfocusout="" id="valortx" type="text"><br>
+                    <input placeholder="R$ 0,00" id="valortx" type="text">
+                    <br>
                     <button style="float:right; border-radius: 1px !important; padding: 3%;margin: 1.8%;" type="button"
                         onclick="att()" class="btn button">Save</button>
                 </div>

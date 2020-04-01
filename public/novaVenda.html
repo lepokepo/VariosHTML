@@ -3,335 +3,343 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>Nova Venda</title>
+    <title>Nova Venda</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="/css/simple-sidebar.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/simple-sidebar.css" rel="stylesheet">
 
-  <script>
-    let total = 0;
-    let arrayObj = [];
+    <script>
+        let total = 0;
+        let arrayObj = [];
 
-    function deletaLista(n, valor) {
-      document.getElementById(n).remove(document.getElementById(n));
+        function deletaLista(n, valor) {
+            document.getElementById(n).remove(document.getElementById(n));
 
-      total = total - valor
-      document.getElementById("valorftx").value = "R$ " + total.toLocaleString("pt-BR");
+            total = total - valor
 
-      delete arrayObj[n - 1]
-      console.log();
-
-    }
-
-
-    function finalizaVenda() {
-      //post
-      fetch('http://localhost/postitem', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(arrayObj)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        console.log('Retorno:', data);
-      });
-    }
-
-    var idDiv = 0;
-    function mostrarTabela() {
-      idDiv++;
-      let item = {
-        "produto_id": 0,
-        "quantidade": 0,
-      };
-      var idComp = document.getElementById("idinpt").value
-      console.log('Recebendo...');
-      console.log(idComp);
-      fetch(`http://localhost/getProduto/${idComp}`, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      }).then(function (response) {
-        return response.json()
-
-      }).catch(function (error) {
-        var x = document.getElementById("snackbar");
-        // Add the "show" class to DIV
-        x.className = "show";
-        // After 3 seconds, remove the show class from DIV
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-
-      }).then(function (data) {
-        console.log('Retorno:', data);
-        if (data != undefined) {
-          if (data.idproduto == idComp) {
-            let quant = parseFloat(document.getElementById("qntinpt").value)
-            let valor = quant * parseFloat(data.valor)
-            total += valor
-
-            item.produto_id = data.idproduto;
-            item.quantidade = quant;
-
-            document.getElementById('vendatx').innerHTML +=
-              `<div id="${idDiv}" style="width: 91%;" class="row">
-              <div class="col-1 bdrcampos">${data.idproduto}</div>
-              <div class="col bdrcampos">${data.nome}</div>
-              <div class="col-3 bdrcampos">${quant}</div>
-              <div class="col bdrcampos">
-              R$ ${valor.toLocaleString("pt-BR")}</div>
-              <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-1 bdrcampos">
-              <button style="float:right; border-radius: 1px !important;"
-              type="button" onclick="deletaLista(${idDiv}, ${valor})" class="btn button">Del</button>
-              </div></div> `
-
-            arrayObj.push(item);
-          } else {
-            console.log("erradito")
-          }
-          document.getElementById("valorftx").value = "R$ " + total.toLocaleString("pt-BR");
-          console.log(arrayObj);
-
+            document.getElementById("valorftx").value = "R$ " + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            delete arrayObj[n - 1]
+            console.log(arrayObj);
         }
-      });
 
-    }
+        function finalizaVenda() {
+            //post
+            fetch('http://localhost/postitem', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(arrayObj)
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                console.log('Retorno:', data);
+            });
+        }
 
-  </script>
+        var idDiv = 0;
 
-  <style>
-    #snackbar {
-      visibility: hidden;
-      /* Hidden by default. Visible on click */
-      min-width: 250px;
-      /* Set a default minimum width */
-      margin-left: -125px;
-      /* Divide value of min-width by 2 */
-      background-color: rgb(17, 220, 108);
-      /* Black background color */
-      color: rgb(255, 255, 255);
-      /* White text color */
-      text-align: center;
-      /* Centered text */
-      border-radius: 2px;
-      /* Rounded borders */
-      padding: 16px;
-      /* Padding */
-      position: fixed;
-      /* Sit on top of the screen */
-      z-index: 1;
-      /* Add a z-index if needed */
-      left: 50%;
-      /* Center the snackbar */
-      bottom: 30px;
-      /* 30px from the bottom */
-    }
+        function mostrarTabela() {
+            var idComp = document.getElementById("idinpt").value
+            let quant = parseFloat(document.getElementById("qntinpt").value)
+            if (idComp != null && quant != null && quant > 0) {
+                idDiv++;
+                let item = {
+                    "produto_id": 0,
+                    "quantidade": 0,
+                };
 
-    /* Show the snackbar when clicking on a button (class added with JavaScript) */
-    #snackbar.show {
-      visibility: visible;
-      /* Show the snackbar */
-      /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+                console.log('Recebendo...');
+                console.log(idComp);
+                fetch(`http://localhost/getProduto/${idComp}`, {
+                    method: 'get',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }).then(function (response) {
+                    return response.json()
+
+                }).catch(function (error) {
+                    var x = document.getElementById("snackbar");
+                    // Add the "show" class to DIV
+                    x.className = "show";
+                    // After 3 seconds, remove the show class from DIV
+                    setTimeout(function () {
+                        x.className = x.className.replace("show", "");
+                    }, 3000);
+
+                }).then(function (data) {
+                    console.log('Retorno:', data);
+                    if (data != undefined) {
+                        if (data.idproduto == idComp) {
+                            let valor = quant * parseFloat(data.valor)
+                            total += valor
+
+                            item.produto_id = data.idproduto;
+                            item.quantidade = quant;
+
+                            document.getElementById('vendatx').innerHTML +=
+                                `<div id="${idDiv}" style="width: 91%;" class="row">
+                                 <div class="col-1 bdrcampos">${data.idproduto}</div>
+                                 <div class="col bdrcampos">${data.nome}</div>
+                                 <div class="col-3 bdrcampos">${quant}</div>
+                                 <div class="col bdrcampos">
+                                 R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                                 <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-1 bdrcampos">
+                                 <button style="float:right; border-radius: 1px !important;"
+                                 type="button" onclick="deletaLista(${idDiv}, ${valor})" class="btn button">Del</button>
+                                 </div></div> `
+
+                            arrayObj.push(item);
+                        } else {
+                            console.log("erradito")
+                        }
+                        document.getElementById("valorftx").value = "R$ " + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        console.log(arrayObj);
+                        document.getElementById("idinpt").value = null
+                        document.getElementById("qntinpt").value = 1
+                    }
+                });
+            } else {
+                console.log("erro fio");
+
+            }
+        }
+    </script>
+
+    <style>
+        #snackbar {
+            visibility: hidden;
+            /* Hidden by default. Visible on click */
+            min-width: 250px;
+            /* Set a default minimum width */
+            margin-left: -125px;
+            /* Divide value of min-width by 2 */
+            background-color: rgb(17, 220, 108);
+            /* Black background color */
+            color: rgb(255, 255, 255);
+            /* White text color */
+            text-align: center;
+            /* Centered text */
+            border-radius: 2px;
+            /* Rounded borders */
+            padding: 16px;
+            /* Padding */
+            position: fixed;
+            /* Sit on top of the screen */
+            z-index: 1;
+            /* Add a z-index if needed */
+            left: 50%;
+            /* Center the snackbar */
+            bottom: 30px;
+            /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+
+        #snackbar.show {
+            visibility: visible;
+            /* Show the snackbar */
+            /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
   However, delay the fade out process for 2.5 seconds */
-      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-      animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    }
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
 
-    /* Animations to fade the snackbar in and out */
-    @-webkit-keyframes fadein {
-      from {
-        bottom: 0;
-        opacity: 0;
-      }
+        /* Animations to fade the snackbar in and out */
 
-      to {
-        bottom: 30px;
-        opacity: 1;
-      }
-    }
+        @-webkit-keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
 
-    @keyframes fadein {
-      from {
-        bottom: 0;
-        opacity: 0;
-      }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
 
-      to {
-        bottom: 30px;
-        opacity: 1;
-      }
-    }
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
 
-    @-webkit-keyframes fadeout {
-      from {
-        bottom: 30px;
-        opacity: 1;
-      }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
 
-      to {
-        bottom: 0;
-        opacity: 0;
-      }
-    }
+        @-webkit-keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
 
-    @keyframes fadeout {
-      from {
-        bottom: 30px;
-        opacity: 1;
-      }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
 
-      to {
-        bottom: 0;
-        opacity: 0;
-      }
-    }
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
 
-    .redond {
-      border-radius: 50%;
-      max-width: 100%;
-      border: 3px solid rgb(46, 41, 41);
-    }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
 
-    .letraNome {
-      font-size: 15px !important;
-      font-weight: bold !important;
-    }
+        .redond {
+            border-radius: 50%;
+            max-width: 100%;
+            border: 3px solid rgb(46, 41, 41);
+        }
 
-    .bdr {
-      border-top: 1px solid rgb(46, 41, 41);
-      border-bottom: 1px solid rgb(46, 41, 41) !important;
-    }
+        .letraNome {
+            font-size: 15px !important;
+            font-weight: bold !important;
+        }
 
-    .bdrcampos {
-      border-top: 1px solid rgb(46, 41, 41) !important;
-      border-left: 1px solid rgb(46, 41, 41) !important;
-    }
+        .bdr:hover {
+            background-color: rgb(46, 41, 41) !important;
+            color: rgb(255, 255, 255);
+        }
 
-    .vendaBox {
-      border: 2px solid rgb(46, 41, 41) !important;
-      height: 70%;
-      background-color: rgb(255, 255, 255);
-    }
+        .bdrcampos {
+            border-top: 1px solid rgb(46, 41, 41) !important;
+            border-left: 1px solid rgb(46, 41, 41) !important;
+        }
 
-    .pedin {
-      padding: 3%;
-    }
+        .vendaBox {
+            border: 2px solid rgb(46, 41, 41) !important;
+            height: 70%;
+            background-color: rgb(255, 255, 255);
+        }
 
-    .button:hover {
-      background-color: rgb(17, 220, 108);
-      transition-duration: 0.2s;
-      color: rgb(255, 255, 255);
-    }
+        .pedin {
+            padding: 3%;
+        }
 
-    .tpbt {
-      border-top: 1px solid rgb(46, 41, 41);
-      border-bottom: 1px solid rgb(46, 41, 41) !important;
-    }
+        .button:hover {
+            background-color: rgb(17, 220, 108);
+            transition-duration: 0.2s;
+            color: rgb(255, 255, 255);
+        }
 
-    .row:last-child {
-      border-bottom: 1px solid rgb(46, 41, 41);
-      margin-bottom: 7%;
-    }
-  </style>
+        .tpbt {
+            border-top: 1px solid rgb(46, 41, 41);
+            border-bottom: 1px solid rgb(46, 41, 41) !important;
+        }
+
+        .row:last-child {
+            border-bottom: 1px solid rgb(46, 41, 41);
+            margin-bottom: 7%;
+        }
+    </style>
 
 </head>
 
 <body>
 
-  <div class="d-flex" id="wrapper">
+    <div class="d-flex" id="wrapper">
 
-    <!-- Sidebar -->
-    <div
-      style="width: 18%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
-      class="bg-light " id="sidebar-wrapper">
-      <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
-      <div class="letraNome sidebar-heading"> Luigi Pesone</div>
-      <div class="tpbt list-group list-group-flush">
-        <a href="/listaV" class="list-group-item list-group-item-action bg-light">Lista de Vendas</a>
-        <a href="/graficoP" class="list-group-item list-group-item-action bg-light">Gráfico de Produtos</a>
-        <a href="/menu" class="list-group-item list-group-item-action bg-light">Voltar</a>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
+        <!-- Sidebar -->
+        <div style="width: 18%!important; margin-right: 1%; background-color: rgb(17, 220, 108)!important; border-right: 1px solid rgb(46, 41, 41);"
+            class="bg-light " id="sidebar-wrapper">
+            <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
+            <div class="letraNome sidebar-heading"> Luigi Pesone</div>
+            <div class="tpbt list-group list-group-flush">
+                <a href="/listaV" class="list-group-item list-group-item-action bdr">Lista de Vendas</a>
+                <a href="/graficoP" class="list-group-item list-group-item-action bdr">Gráfico de Produtos</a>
+                <a href="/menu" class="list-group-item list-group-item-action bdr">Voltar</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
 
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button style="border-radius: 1px !important;" class="btn button" id="menu-toggle">Perfil</button>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </nav>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
 
-      <div class="container-fluid">
+            <div class="container-fluid">
 
-        <h1 class="mt-4">Nova Venda</h1>
-        <div style="border-bottom: 0px solid rgb(255, 255, 255) !important;" class="vendaBox">
-          <div
-            style="width: 91%; padding-top: 3%;padding-left: 10%;padding-right: 3%; border-bottom: none; margin-bottom: 0%;"
-            class="row">
+                <h1 class="mt-4">Nova Venda</h1>
+                <div style="border-bottom: 0px solid rgb(255, 255, 255) !important;" class="vendaBox">
+                    <div style="width: 91%; padding-top: 3%;padding-left: 10%;padding-right: 3%; border-bottom: none; margin-bottom: 0%;"
+                        class="row">
 
-            <input id="idinpt" placeholder="ID" type="number" min=0 style="border-right:  1px solid rgb(46, 41, 41) !important;
+                        <input id="idinpt" placeholder="ID" type="number" min=0 style="border-right:  1px solid rgb(46, 41, 41) !important;
               border-right: 0px solid rgb(255, 255, 255) !important;" class="col-1 bdrcampos">
 
-            <input id="qntinpt" placeholder="Quantidade" type="number" min=1 value="1"
-              style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-2 bdrcampos">
+                        <input id="qntinpt" placeholder="Quantidade" type="number" min=1 value="1"
+                            style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-2 bdrcampos">
 
-            <button style="border-radius: 1px !important;margin-left: 1%;" type="button" onclick="mostrarTabela()"
-              class="btn button">Add</button>
-          </div>
+                        <button style="border-radius: 1px !important;margin-left: 1%;" type="button"
+                            onclick="mostrarTabela()" class="btn button">Add</button>
+                    </div>
 
-        </div>
+                </div>
 
-        <div class="vendaBox">
-          <div style="float: right;margin-right: 1%;width: 40%;" class="pedin row">
-            <input style="min-width: 60%;" class="col-3" type="text" id="valorftx" placeholder="Valor Final" readonly>
-            <button style="margin-left: 1%;border-radius: 1px !important;" type="button"
-              onclick="finalizaVenda(arrayObj)" class="btn button">Finalizar</button>
-          </div>
-          <div id="vendatx" style="margin-left: 10%;">
-            <div style="width: 91%; margin-top: 1%;" class="row">
-              <div class="col-1 bdrcampos">ID</div>
-              <div class="col bdrcampos">Nome</div>
-              <div class="col-3 bdrcampos">Quantidade</div>
-              <div class="col bdrcampos">Valor Total</div>
-              <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-1 bdrcampos">Ações</div>
+                <div class="vendaBox">
+                    <div style="float: right;margin-right: 1%;width: 40%;" class="pedin row">
+                        <input style="min-width: 60%;" class="col-3" type="text" id="valorftx" placeholder="Valor Final"
+                            readonly>
+                        <button style="margin-left: 1%;border-radius: 1px !important;" type="button"
+                            onclick="finalizaVenda(arrayObj)" class="btn button">Finalizar</button>
+                    </div>
+                    <div id="vendatx" style="margin-left: 10%;">
+                        <div style="width: 91%; margin-top: 1%;" class="row">
+                            <div class="col-1 bdrcampos">ID</div>
+                            <div class="col bdrcampos">Nome</div>
+                            <div class="col-3 bdrcampos">Quantidade</div>
+                            <div class="col bdrcampos">Valor Total</div>
+                            <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-1 bdrcampos">Ações</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="snackbar">Produto não encontrado</div>
             </div>
-          </div>
         </div>
-        <div id="snackbar">Produto não encontrado</div>
-      </div>
     </div>
-  </div>
-  <!-- /#page-content-wrapper -->
+    <!-- /#page-content-wrapper -->
 
-  </div>
-  <!-- /#wrapper -->
+    </div>
+    <!-- /#wrapper -->
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Menu Toggle Script -->
-  <script>
-    $("#menu-toggle").click(function (e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-  </script>
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 
 </body>
 

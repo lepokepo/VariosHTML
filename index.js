@@ -20,6 +20,7 @@ connection.connect(function (err) {
 
     console.log('Banco conectado')
 })
+moment.locale('pt-BR');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -155,16 +156,13 @@ app.get('/getProduto/:id', function (req, res) {
 });
 
 app.get('/getvendadata/:datad/:dataa', function (req, res) {
-    console.log(req.params.datad)
-    console.log(req.params.dataa)
-    console.log(`select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda) where venda.dt_time between ${req.params.datad} and ${req.params.dataa} group by venda.idvenda order by venda.dt_time desc`);
     connection.query(`select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda) where venda.dt_time between ? and ? group by venda.idvenda order by venda.dt_time desc`, [req.params.datad, req.params.dataa],
         function (error, results, fields) {
             if (error)
                 res.json;
             else {
                 results.forEach(element => {
-                    element["dt_time"] = moment(element["dt_time"]).format('llll')
+                    element["dt_time"] = moment(element["dt_time"]).format('LLL')
                 });
                 res.json(results);
             }
@@ -179,7 +177,7 @@ app.get('/getListaV', function (req, res) {
                 res.json;
             else {
                 results.forEach(element => {
-                    element["dt_time"] = moment(element["dt_time"]).format('llll')
+                    element["dt_time"] = moment(element["dt_time"]).format('LLL')
                 });
                 res.json(results);
                 console.log('executou /getListaV')
@@ -190,7 +188,7 @@ app.get('/getListaV', function (req, res) {
 
 app.get('/getgraficov', function (req, res) {
     connection.query(`
-    select extract(day from v.dt_time)as mes, round(sum(item_valor))as valorTotal from item_venda 
+    select extract(month from v.dt_time)as mes, round(sum(item_valor))as valorTotal from item_venda 
     join venda as v on (idvenda = venda_id)
     where extract(year from v.dt_time) = extract(year from current_date)
     group by mes`,
@@ -199,10 +197,9 @@ app.get('/getgraficov', function (req, res) {
                 res.json;
             else {
                 console.log(results);
-
-                // results.forEach(element => {
-                //     element["mes"] = moment(element["mes"]).format('Do')
-                // });
+                results.forEach(element => {
+                    element["mes"] = moment(element["mes"], "MM").format('MMMM')
+                });
                 res.json(results);
                 console.log('executou /getgraficov')
             }
@@ -247,7 +244,6 @@ app.use('/adiciona', function (req, res) {
 
 app.use('/edtProduto', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/edtProduto.html'));
-
 })
 
 app.use('/novaVenda', function (req, res) {

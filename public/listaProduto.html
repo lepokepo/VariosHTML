@@ -8,6 +8,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"
+    type="text/javascript"></script>
+
   <title>Lista de Produtos</title>
 
   <!-- Bootstrap core CSS -->
@@ -39,7 +43,7 @@
               </div>`
       receberServ();
     }
-
+    var contMask = 0
     function receberServ() {
 
       console.log('Recebendo...');
@@ -53,18 +57,18 @@
       }).then(function (data) {
         console.log('Retorno:', data);
         data.forEach(element => {
-
-          document.getElementById('prdtx').innerHTML += `<div style="width: 98%" class="row"> 
+          document.getElementById('prdtx').innerHTML += `<div style="width: 98%" class="row">
             <div class="col-1 bdrcampos">${element["idproduto"]}</div> 
             <div class="col bdrcampos">${element["nome"]}</div> 
-            <div class=" col-2 bdrcampos">R$ ${(element["valor"]).toLocaleString("pt-BR")}</div>
+            <div id="${contMask}" class=" col-2 bdrcampos">R$ ${(element["valor"]).toLocaleString("pt-BR")}</div>
             <div style="border-right: 1px solid rgb(46, 41, 41)" class="col-2 bdrcampos">
               <button style="float:right; border-radius: 1px !important;"
               type="button" onclick="deletaProd(${element["idproduto"]})" class="btn button">Del</button>
               <a href="/edtProduto/${element["idproduto"]}" style="float:right; border-radius: 1px !important;"
               type="button"  onclick="" class="btn button">Edt</a>
               </div>
-            </div>`;
+            </div>`
+          contMask++;
         });
       });
 
@@ -83,10 +87,10 @@
       font-weight: bold !important;
     }
 
-    .bdr {
-      border-top: 1px solid rgb(46, 41, 41);
-      border-bottom: 1px solid rgb(46, 41, 41);
-    }
+    .bdr:hover {
+            background-color: rgb(46, 41, 41) !important;
+            color: rgb(255, 255, 255);
+        }
 
     .bdrcampos {
       border-top: 1px solid rgb(46, 41, 41);
@@ -128,9 +132,9 @@
       <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
       <div class="letraNome sidebar-heading"> Luigi Pesone</div>
       <div class="tpbt list-group list-group-flush">
-        <a href="/adiciona" class="list-group-item list-group-item-action bg-light">Novo Produto</a>
-        <a href="/graficoP" class="list-group-item list-group-item-action bg-light">Gráfico de Produtos</a>
-        <a href="/" class="list-group-item list-group-item-action bg-light">Voltar</a>
+        <a href="/adiciona" class="list-group-item list-group-item-action bdr">Novo Produto</a>
+        <a href="/graficoP" class="list-group-item list-group-item-action bdr">Gráfico de Produtos</a>
+        <a href="/menu" class="list-group-item list-group-item-action bdr">Voltar</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->

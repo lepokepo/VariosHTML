@@ -12,7 +12,7 @@
     <meta name="author" content="">
 
 
-    <title>Gráfico de Produtos mais Vendidos</title>
+    <title>Gráfico de Vendas</title>
 
 
 
@@ -23,8 +23,9 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
-
-        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
@@ -32,7 +33,7 @@
             var dataG = google.visualization.arrayToDataTable([
 
             ]);
-            dataG.addColumn('number', 'Mes')
+            dataG.addColumn('string', 'Mes')
             dataG.addColumn('number', 'Valor Total')
             console.log('Recebendo...');
             fetch('http://localhost/getgraficov', {
@@ -44,29 +45,31 @@
                 return response.json();
             }).then(function (data) {
                 console.log('Retorno:', data);
-                var i = 0
                 data.forEach(element => {
-                    // dataG.eg[i].c[0].v = element.mes
-                    // dataG.eg[i].c[1].v = element.valorTotal
-                    // i++
-
                     dataG.addRows([
-                        [element.mes, element.valorTotal]
+                        [element.mes, parseFloat(element.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))]
                     ])
                 });
+                var options = {
+                    title: 'Valor das Vendas Mensais',
+                    subtitle: 'em milhões de R$',
+
+                    color1: 'rgb(46, 41, 41)',
+
+                    curveType: 'function',
+                    legend: {
+                        position: 'bottom'
+                    }
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('prdtg'));
+
+                chart.draw(dataG, options);
             })
 
             console.log((dataG.eg));
 
-            var options = {
-                title: 'Vendas Mensais',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
 
-            var chart = new google.visualization.LineChart(document.getElementById('prdtg'));
-
-            chart.draw(dataG, options);
         }
     </script>
 
@@ -75,7 +78,6 @@
             border-radius: 50%;
             max-width: 100%;
             border: 3px solid rgb(46, 41, 41);
-
         }
 
         .letraNome {
@@ -83,9 +85,9 @@
             font-weight: bold !important;
         }
 
-        .bdr {
-            border-top: 1px solid rgb(46, 41, 41);
-            border-bottom: 1px solid rgb(46, 41, 41);
+        .bdr:hover {
+            background-color: rgb(46, 41, 41) !important;
+            color: rgb(255, 255, 255);
         }
 
         .bdrcampos {
@@ -93,11 +95,9 @@
             border-left: 1px solid rgb(46, 41, 41) !important;
         }
 
-
         .vendaBox {
             border: 2px solid rgb(46, 41, 41) !important;
         }
-
 
         .button:hover {
             background-color: rgb(17, 220, 108);
@@ -123,9 +123,9 @@
             <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
             <div class="letraNome sidebar-heading"> Luigi Pesone</div>
             <div class="tpbt list-group list-group-flush">
-                <a href="/novaVenda" class="list-group-item list-group-item-action bg-light">Nova Venda</a>
-                <a href="/listaP" class="list-group-item list-group-item-action bg-light">Histórico de Vendas</a>
-                <a href="/menu" class="list-group-item list-group-item-action bg-light">Voltar</a>
+                <a href="/novaVenda" class="bdr list-group-item list-group-item-action ">Nova Venda</a>
+                <a href="/listaP" class="bdr list-group-item list-group-item-action ">Histórico de Vendas</a>
+                <a href="/menu" class="bdr list-group-item list-group-item-action ">Voltar</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -141,18 +141,14 @@
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-
             </nav>
 
             <div class="container-fluid">
-                <h1 class="mt-4">Gráfico de Produtos</h1>
+                <h1 class="mt-4">Gráfico de Vendas</h1>
                 <div style="padding-left: 5%;" class="vendaBox">
                     <div>
                         <div id="prdtg" style="height: 380px;width: 100%;margin-top: 6%;padding-bottom: 2.4%;"
                             class="row">
-
-
                         </div>
                     </div>
                 </div>

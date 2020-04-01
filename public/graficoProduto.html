@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gráfico de Produtos mais Vendidos</title>
+    <title>Gráfico de Produtos</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
                                 <span style="font-size:14px">${element.porc}%</span><br>
                                 <div style="background-color: rgb(17, 220, 108);width:100%;height: ${element.porc}%;">${element.nomeP}
                                     <br>
-                                    <span style="font-size:14px">R$ ${valorItem.toLocaleString('pt-BR')}</span>
+                                    <span style="font-size:14px">R$ ${valorItem.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                     </div>
                             </div>`;
                             cont++;
@@ -73,7 +73,6 @@
             border-radius: 50%;
             max-width: 100%;
             border: 3px solid rgb(46, 41, 41);
-
         }
 
         .letraNome {
@@ -81,16 +80,12 @@
             font-weight: bold !important;
         }
 
-        .bdr {
-            border-top: 1px solid rgb(46, 41, 41);
-            border-bottom: 1px solid rgb(46, 41, 41);
-        }
+
 
         .bdrcampos {
             border-top: 1px solid rgb(46, 41, 41);
             border-left: 1px solid rgb(46, 41, 41) !important;
         }
-
 
         .vendaBox {
             border: 2px solid rgb(46, 41, 41) !important;
@@ -111,6 +106,11 @@
             border-top: 1px solid rgb(46, 41, 41);
             border-bottom: 1px solid rgb(46, 41, 41) !important;
         }
+
+        .bdr:hover {
+            background-color: rgb(46, 41, 41) !important;
+            color: rgb(255, 255, 255);
+        }
     </style>
 
 </head>
@@ -125,9 +125,9 @@
             <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
             <div class="letraNome sidebar-heading"> Luigi Pesone</div>
             <div class="tpbt list-group list-group-flush">
-                <a href="/novaVenda" class="list-group-item list-group-item-action bg-light">Nova Venda</a>
-                <a href="/listaP" class="list-group-item list-group-item-action bg-light">Lista de Produtos</a>
-                <a href="/menu" class="list-group-item list-group-item-action bg-light">Voltar</a>
+                <a href="/novaVenda" class="bdr list-group-item list-group-item-action ">Nova Venda</a>
+                <a href="/listaP" class="bdr list-group-item list-group-item-action ">Lista de Produtos</a>
+                <a href="/menu" class="bdr list-group-item list-group-item-action ">Voltar</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->

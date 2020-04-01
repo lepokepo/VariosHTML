@@ -29,7 +29,7 @@
                     document.getElementById('vendatx').innerHTML += `<div style="width: 91%" class="row"> 
             <div class="col-1 bdrcampos">${element["idvenda"]}</div> 
             <div class="col-2 bdrcampos">${element["quantidade"]}</div>
-            <div class="col bdrcampos">R$ ${element["valorTotal"].toLocaleString('pt-BR')}</div>
+            <div class="col bdrcampos">R$ ${element["valorTotal"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
             <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">${element["dt_time"]}</div> `;
                 });
             });
@@ -78,7 +78,7 @@
                     document.getElementById('vendatx').innerHTML += `<div style="width: 91%" class="row"> 
             <div class="col-1 bdrcampos">${element["idvenda"]}</div> 
             <div class="col-2 bdrcampos">${element["quantidade"]}</div>
-            <div class="col bdrcampos">R$ ${element["valorTotal"].toLocaleString('pt-BR')}</div>
+            <div class="col bdrcampos">R$ ${(element["valorTotal"]).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
             <div style="border-right: 1px solid rgb(46, 41, 41)" class="col bdrcampos">${element["dt_time"]}</div> `;
                 });
             });
@@ -105,9 +105,9 @@
             border-bottom: 1px solid rgb(46, 41, 41) !important;
         }
 
-        .bdr {
-            border-top: 1px solid rgb(46, 41, 41);
-            border-bottom: 1px solid rgb(46, 41, 41) !important;
+        .bdr:hover {
+            background-color: rgb(46, 41, 41) !important;
+            color: rgb(255, 255, 255);
         }
 
         .bdrcampos {
@@ -148,8 +148,8 @@
             <div class="sidebar-heading"><img class="redond" src="img_perfil.jpg" alt="img_perfil"> </div>
             <div class="letraNome sidebar-heading"> Luigi Pesone</div>
             <div class="tpbt list-group list-group-flush">
-                <a href="/novaVenda" class="list-group-item list-group-item-action bg-light">Nova Venda</a>
-                <a href="/menu" class="list-group-item list-group-item-action bg-light">Voltar</a>
+                <a href="/novaVenda" class="list-group-item list-group-item-action bdr">Nova Venda</a>
+                <a href="/menu" class="list-group-item list-group-item-action bdr">Voltar</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
