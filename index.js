@@ -286,6 +286,4 @@ app.get('/', function (req, res) {
 
 })
 
-app.listen(80, function () {
-    console.log('Server escutou\n')
-});
+app.listen(process.env.PORT || 80);
