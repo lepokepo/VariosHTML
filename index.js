@@ -156,22 +156,27 @@ app.get('/getProduto/:id', function (req, res) {
 });
 
 app.get('/getvendadata/:datad/:dataa', function (req, res) {
-    connection.query(`select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda) where venda.dt_time between ? and ? group by venda.idvenda order by venda.dt_time desc`, [req.params.datad, req.params.dataa],
-        function (error, results, fields) {
-            if (error)
-                res.json;
-            else {
-                results.forEach(element => {
-                    element["dt_time"] = moment(element["dt_time"]).format('LLL')
-                });
-                res.json(results);
-            }
+    console.log(req.params.datad);
+    console.log(req.params.dataa);
 
-        })
+    if (req.params.datad && req.params.dataa != null) {
+        connection.query(`select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda) where venda.dt_time between ? and ? group by venda.idvenda order by venda.dt_time desc`, [req.params.datad, req.params.dataa],
+            function (error, results, fields) {
+                if (error)
+                    res.json;
+                else {
+                    results.forEach(element => {
+                        element["dt_time"] = moment(element["dt_time"]).format('LLL')
+                    });
+                    res.json(results);
+                }
+
+            })
+    }
 });
 
 app.get('/getListaV', function (req, res) {
-    connection.query('select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda)where venda.dt_time > current_date group by venda.idvenda order by venda.dt_time desc',
+    connection.query('select venda.idvenda, venda.dt_time, sum(itemv.item_valor) as valorTotal, sum(itemv.quantidade) as quantidade from venda venda join item_venda itemv on(itemv.venda_id = venda.idvenda)where extract(month from venda.dt_time) >= extract(month from current_date) group by venda.idvenda order by venda.dt_time desc',
         function (error, results, fields) {
             if (error)
                 res.json;
