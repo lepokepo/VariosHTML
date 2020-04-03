@@ -224,7 +224,7 @@
                 <div style="padding-bottom: 4% !important;width: 22% !important;" class="vendaBox">
 
                     <span>Nome: </span><br>
-                    <input placeholder="Dog Run" id="nometx" type="text">
+                    <input placeholder="Dog Run" id="nometx" maxlength="100" type="text">
                     <br><br>
                     <span>Valor: </span><br>
                     <input placeholder="R$ 0,00" id="valortx" type="text">
@@ -233,7 +233,8 @@
                             prefix: 'R$ ',
                             thousands: '.',
                             decimal: ',',
-                            symbolStay: true
+                            symbolStay: true,
+                            numeralMaxLength: true
                         });
                     </script>
                     <br>

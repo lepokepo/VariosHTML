@@ -51,7 +51,7 @@
         function mostrarTabela() {
             var idComp = document.getElementById("idinpt").value
             let quant = parseFloat(document.getElementById("qntinpt").value)
-            if (idComp != null && quant != null && quant > 0) {
+            if (idComp != null && quant != null && quant > 0 && quant < 99) {
                 idDiv++;
                 let item = {
                     "produto_id": 0,
@@ -110,8 +110,12 @@
                     }
                 });
             } else {
-                console.log("erro fio");
-
+                var x = document.getElementById("snackbar");
+                x.innerHTML = "ID ou Quantidade Inválidos"
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
             }
         }
     </script>
@@ -295,7 +299,7 @@
                         <input id="idinpt" placeholder="ID" type="number" min=0 style="border-right:  1px solid rgb(46, 41, 41) !important;
               border-right: 0px solid rgb(255, 255, 255) !important;" class="col-1 bdrcampos">
 
-                        <input id="qntinpt" placeholder="Quantidade" type="number" min=1 value="1"
+                        <input id="qntinpt" placeholder="Quantidade" type="number" min=1 max=99 value="1"
                             style="border-right:  1px solid rgb(46, 41, 41) !important;" class="col-2 bdrcampos">
 
                         <button style="border-radius: 1px !important;margin-left: 1%;" type="button"
