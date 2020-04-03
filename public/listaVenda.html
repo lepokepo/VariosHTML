@@ -17,9 +17,10 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
+        let server = "http://localhost:3000";
         function receberServ() {
             console.log('Recebendo...');
-            fetch('http://localhost/getListaV', {
+            fetch(server + '/getListaV', {
                 method: 'get',
             }).then(function (response) {
                 return response.json();

@@ -23,6 +23,8 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
+        let server = "http://localhost:3000";
+
         google.charts.load('current', {
             'packages': ['corechart']
         });
@@ -36,7 +38,7 @@
             dataG.addColumn('string', 'Mes')
             dataG.addColumn('number', 'Valor Total')
             console.log('Recebendo...');
-            fetch('http://localhost/getgraficov', {
+            fetch(server + '/getgraficov', {
                 method: 'get',
                 headers: {
                     'Content-Type': 'application/json'

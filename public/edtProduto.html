@@ -23,6 +23,7 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
+        let server = "http://localhost:3000";
         //pega o link,  bota numa array
         var idComp = (window.location.href).split("/")
         idComp = idComp[idComp.length - 1]
@@ -43,7 +44,7 @@
 
         function updateProd(jeison) {
             console.log('Updating...');
-            fetch('http://localhost/updateProduto', {
+            fetch(server + '/updateProduto', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

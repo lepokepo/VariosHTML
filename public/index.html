@@ -17,6 +17,8 @@
     <link href="css/simple-sidebar.css" rel="stylesheet">
 
     <script>
+        let server = "http://localhost:3000";
+
         function final() {
             if (document.getElementById("nome").value != "" && document.getElementById("nome").value != null && document.getElementById("senha").value != "" && document.getElementById("nome").value != null) {
                 let user = {
@@ -42,7 +44,7 @@
 
         function validaSenha(jeison) {
             console.log('Posting...');
-            fetch('http://localhost/validacao', {
+            fetch(server + '/validacao', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -54,7 +56,7 @@
                 console.log('Retorno:', data);
                 console.log(data.mensagem)
                 if (data.mensagem == "") {
-                    window.location.href = "http://localhost/menu";
+                    window.location.href = server + "/menu";
                 } else {
                     snackShow(data.mensagem)
                 }

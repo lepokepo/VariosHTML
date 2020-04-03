@@ -41,7 +41,7 @@
 
         function postProdServer(jeison) {
             console.log('Posting...');
-            fetch('http://localhost/postProd', {
+            fetch(server + '/postProd', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -60,6 +60,9 @@
                 }, 3000);
             })
         }
+
+
+        let server = "http://localhost:3000";
     </script>
 
     <style>

@@ -5,16 +5,16 @@ const moment = require('moment');
 const app = express();
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'remotemysql.com',
     port: 3306,
-    user: 'root',
-    password: '',
-    database: 'clientesdb',
+    user: '0AmEoIgtbe',
+    password: '3j2zGKl22L',
+    database: '0AmEoIgtbe',
 })
 
 connection.connect(function (err) {
     if (err) {
-        console.error('erro conectando banco: ', err)
+        console.error('Erro conectando banco: ', err)
         return;
     }
 
@@ -237,7 +237,6 @@ app.post('/validacao', function (req, res) {
                     res.send({ "mensagem": "Nome ou Senha inválidos" })
                     console.log('executou /validacao')
                 }
-
             })
     }
 });
@@ -286,6 +285,10 @@ app.get('/', function (req, res) {
 
 })
 
+// app.listen(process.env.PORT || 3000, function () {
+//     console.log('Server escutou\n')
+// });
+
 app.listen(process.env.PORT || 3000, function () {
-    console.log('Server escutou\n')
+    console.log('Porta: ' + (process.env.PORT || 3000));
 });

@@ -19,8 +19,10 @@
     <script>
         function criaGrafico() {
 
+            let server = "http://localhost:3000";
+
             console.log('Recebendo...');
-            fetch('http://localhost/getgraficop', {
+            fetch(server + '/getgraficop', {
                 method: 'get',
             }).then(function (response) {
                 return response.json();
