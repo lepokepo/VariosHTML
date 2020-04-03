@@ -24,7 +24,7 @@
 
     function deletaProd(e) {
       console.log('Recebendo...');
-      fetch(`http://localhost/delProd/${e}`, {
+      fetch(`https://applepo.herokuapp.com/delProd/${e}`, {
         method: 'delete',
         headers: {
           'Content-Type': 'application/json'
@@ -44,7 +44,7 @@
       receberServ();
     }
     function receberServ() {
-      let server = "http://localhost:3000";
+      let server = "https://applepo.herokuapp.com:3000";
 
       console.log('Recebendo...');
       fetch(server + '/getListaP', {

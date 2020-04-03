@@ -23,7 +23,7 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
-        let server = "http://localhost:3000";
+        let server = "https://applepo.herokuapp.com:3000";
         //pega o link,  bota numa array
         var idComp = (window.location.href).split("/")
         idComp = idComp[idComp.length - 1]
@@ -74,7 +74,7 @@
             //pega a ultima posicao do array
             console.log('Recebendo...');
             console.log(idComp);
-            fetch(`http://localhost/getProduto/${idComp}`, {
+            fetch(`https://applepo.herokuapp.com/getProduto/${idComp}`, {
                 method: 'get',
                 headers: {
                     'Content-Type': 'application/json'

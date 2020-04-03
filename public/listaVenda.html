@@ -17,7 +17,7 @@
     <link href="/css/simple-sidebar.css" rel="stylesheet">
 
     <script>
-        let server = "http://localhost:3000";
+        let server = "https://applepo.herokuapp.com:3000";
         function receberServ() {
             console.log('Recebendo...');
             fetch(server + '/getListaV', {
@@ -47,7 +47,7 @@
             console.log(dataAte);
 
             if (dataDe != "" && dataAte != "") {
-                fetch(`http://localhost/getvendadata/${dataDe}/${dataAte}`, {
+                fetch(`https://applepo.herokuapp.com/getvendadata/${dataDe}/${dataAte}`, {
                     method: 'get',
                 }).then(function (response) {
                     return response.json();
