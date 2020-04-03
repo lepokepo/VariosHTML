@@ -92,46 +92,48 @@
         function mostrarTabela() {
             console.log(arrayObj.length);
 
-            var idComp = document.getElementById("idinpt").value
-            let quant = parseFloat(document.getElementById("qntinpt").value)
-            if (idComp != null && quant != null && quant > 0 && quant <= 99) {
-                idDiv++;
-                let item = {
-                    "produto_id": 0,
-                    "quantidade": 0,
-                };
+            if (arrayObj.length < 14) {
 
-                console.log('Recebendo...');
-                console.log(idComp);
-                fetch(server + `/getProduto/${idComp}`, {
-                    method: 'get',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }).then(function (response) {
-                    return response.json()
+                var idComp = document.getElementById("idinpt").value
+                let quant = parseFloat(document.getElementById("qntinpt").value)
+                if (idComp != null && quant != null && quant > 0 && quant <= 99) {
+                    idDiv++;
+                    let item = {
+                        "produto_id": 0,
+                        "quantidade": 0,
+                    };
 
-                }).catch(function (error) {
-                    var x = document.getElementById("snackbar");
-                    // Add the "show" class to DIV
-                    x.className = "show";
-                    // After 3 seconds, remove the show class from DIV
-                    setTimeout(function () {
-                        x.className = x.className.replace("show", "");
-                    }, 3000);
+                    console.log('Recebendo...');
+                    console.log(idComp);
+                    fetch(server + `/getProduto/${idComp}`, {
+                        method: 'get',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    }).then(function (response) {
+                        return response.json()
 
-                }).then(function (data) {
-                    console.log('Retorno:', data);
-                    if (data != undefined) {
-                        if (data.idproduto == idComp) {
-                            let valor = quant * parseFloat(data.valor)
-                            total += valor
+                    }).catch(function (error) {
+                        var x = document.getElementById("snackbar");
+                        // Add the "show" class to DIV
+                        x.className = "show";
+                        // After 3 seconds, remove the show class from DIV
+                        setTimeout(function () {
+                            x.className = x.className.replace("show", "");
+                        }, 3000);
 
-                            item.produto_id = data.idproduto;
-                            item.quantidade = quant;
+                    }).then(function (data) {
+                        console.log('Retorno:', data);
+                        if (data != undefined) {
+                            if (data.idproduto == idComp) {
+                                let valor = quant * parseFloat(data.valor)
+                                total += valor
 
-                            document.getElementById('vendatx').innerHTML +=
-                                `<div id="${idDiv}" style="width: 91%;" class="row">
+                                item.produto_id = data.idproduto;
+                                item.quantidade = quant;
+
+                                document.getElementById('vendatx').innerHTML +=
+                                    `<div id="${idDiv}" style="width: 91%;" class="row">
                                  <div class="col-1 bdrcampos">${data.idproduto}</div>
                                  <div class="col bdrcampos">${data.nome}</div>
                                  <div class="col-3 bdrcampos">${quant}</div>
@@ -142,24 +144,35 @@
                                  type="button" onclick="deletaLista(${idDiv}, ${valor})" class="btn button">Del</button>
                                  </div></div> `
 
-                            arrayObj.push(item);
-                        } else {
-                            console.log("erradito")
+                                arrayObj.push(item);
+                            } else {
+                                console.log("erradito")
+                            }
+                            document.getElementById("valorftx").value = "R$ " + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                            console.log(arrayObj);
+                            document.getElementById("idinpt").value = null
+                            document.getElementById("qntinpt").value = 1
                         }
-                        document.getElementById("valorftx").value = "R$ " + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        console.log(arrayObj);
-                        document.getElementById("idinpt").value = null
-                        document.getElementById("qntinpt").value = 1
-                    }
-                });
+                    });
+
+                } else {
+                    var x = document.getElementById("snackbar");
+                    x.innerHTML = "ID ou Quantidade Inválidos"
+                    x.className = "show";
+                    setTimeout(function () {
+                        x.className = x.className.replace("show", "");
+                    }, 3000);
+                }
+
             } else {
                 var x = document.getElementById("snackbar");
-                x.innerHTML = "ID ou Quantidade Inválidos"
+                x.innerHTML = "Limite de Itens alcançado";
                 x.className = "show";
                 setTimeout(function () {
                     x.className = x.className.replace("show", "");
                 }, 3000);
             }
+
         }
     </script>
 
