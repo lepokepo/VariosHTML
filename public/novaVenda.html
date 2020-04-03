@@ -21,6 +21,7 @@
         // let server = "http://localhost:3000";
         let total = 0;
         let arrayObj = [];
+        let contaVenda = 0;
 
         function deletaLista(n, valor) {
             document.getElementById(n).remove(document.getElementById(n));
@@ -30,6 +31,7 @@
             document.getElementById("valorftx").value = "R$ " + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             delete arrayObj[n - 1]
             console.log(arrayObj);
+            contaVenda--;
         }
 
         function finalizaVenda() {
@@ -92,7 +94,7 @@
         function mostrarTabela() {
             console.log(arrayObj.length);
 
-            if (arrayObj.length < 14) {
+            if (contaVenda < 14) {
 
                 var idComp = document.getElementById("idinpt").value
                 let quant = parseFloat(document.getElementById("qntinpt").value)
@@ -145,6 +147,7 @@
                                  </div></div> `
 
                                 arrayObj.push(item);
+                                contaVenda++;
                             } else {
                                 console.log("erradito")
                             }
