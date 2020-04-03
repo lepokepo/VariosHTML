@@ -33,17 +33,35 @@
 
         function finalizaVenda() {
             //post
-            fetch(server + '/postitem', {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(arrayObj)
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                console.log('Retorno:', data);
-            });
+            if (document.getElementById("valorftx").value != null && document.getElementById("valorftx").value > 0) {
+                fetch(server + '/postitem', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(arrayObj)
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    console.log('Retorno:', data);
+                }).catch(function (erro) {
+                    console.log('Erro:', erro);
+                    var x = document.getElementById("snackbar");
+                    x.innerHTML = erro
+                    x.className = "show";
+                    setTimeout(function () {
+                        x.className = x.className.replace("show", "");
+                    }, 3000);
+                });
+            } else {
+                var x = document.getElementById("snackbar");
+                x.innerHTML = "Erro ao finalizar venda"
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+            }
+
         }
 
         var idDiv = 0;
