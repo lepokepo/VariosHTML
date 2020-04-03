@@ -32,7 +32,7 @@ const path = require('path');
 
 app.post('/postitem', function (req, res) {
     let lista = req.body;
-    let venda_id;
+    console.log(req.body);
     connection.query(`insert into venda(dt_time) values(current_time)`, function (error, results, fields) {
         if (error) {
             console.log("Erro 1: ", error);
@@ -54,7 +54,7 @@ app.post('/postitem', function (req, res) {
                                 console.log("deu pau rapaz", error);
                             } else {
                                 console.log("certito");
-
+                                res.send({ "msg": "Finalizado" })
                             }
                         })
                     }

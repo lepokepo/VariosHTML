@@ -39,7 +39,8 @@
                             valorItem = element.valorItem
                             var porcCima = 100 - element.porc
                             outros += element.porc
-                            document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                            if (element.porc > 13) {
+                                document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
                                 <div style="background-color: rgb(255, 255, 255);width:100%;height: ${porcCima}%;"></div>
                                 <span style="font-size:14px">${element.porc}%</span><br>
                                 <div style="background-color: rgb(17, 220, 108);width:100%;height: ${element.porc}%;">${element.nomeP}
@@ -47,19 +48,40 @@
                                     <span style="font-size:14px">R$ ${valorItem.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                     </div>
                             </div>`;
+                            } else {
+                                document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                                <div style="background-color: rgb(255, 255, 255);width:100%;height: ${porcCima}%;"></div>
+                                <span style="font-size:14px">${element.porc}%</span><br>
+                                <div  title="R$ ${valorItem.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}"
+                                style="background-color: rgb(17, 220, 108);width:100%;height: ${element.porc}%;">${element.nomeP}
+                                    <br>
+                                    </div>
+                            </div>`;
+                            }
                             cont++;
                             valorResto -= valorItem
                         } else {
-                            document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                            if (outros < 13) {
+                                document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
                                 <div style="background-color: rgb(255, 255, 255);width:100%;height: ${outros}%;"></div>
                                 <span>${(100 - outros)}%</span><br>
                                 
                                 <div style="background-color: rgb(17, 220, 108);width:100%;height: ${(100 - outros)}%;">Outros
                                     <br>
-                                    <span>R$ ${valorResto.toLocaleString('pt-BR')}</span>
+                                    <span style="font-size:14px">R$ ${valorResto.toLocaleString('pt-BR')}</span>
                                     </div>
-                            </div>
-                             `
+                            </div>`
+                            } else {
+                                document.getElementById('prdtg').innerHTML += ` <div style="text-align:center;" class="col">
+                                <div style="background-color: rgb(255, 255, 255);width:100%;height: ${outros}%;"></div>
+                                <span>${(100 - outros)}%</span><br>
+                                
+                                <div title="${valorResto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}" 
+                                style="background-color: rgb(17, 220, 108);width:100%;height: ${(100 - outros)}%;">Outros
+                                    <br>
+                                    </div>
+                            </div>`
+                            }
                             cont = -1
                         }
                     }
@@ -150,13 +172,12 @@
             </nav>
 
             <div class="container-fluid">
-                <h1 class="mt-4">Gráfico de Produtos</h1>
+                <h1 class="mt-4">Gráfico de Produtos mais Vendidos</h1>
+                <span>por Quantidade</span>
                 <div style="padding-left: 5%;" class="vendaBox">
                     <div>
-                        <div id="prdtg" style="height: 380px;width: 98%;margin-top: 6%;padding-bottom: 2.4%;"
+                        <div id="prdtg" style="height: 360px;width: 98%;margin-top: 6%;padding-bottom: 2.4%;"
                             class="row">
-
-
                         </div>
                     </div>
                 </div>
