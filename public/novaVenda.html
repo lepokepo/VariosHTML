@@ -90,9 +90,11 @@
         var idDiv = 0;
 
         function mostrarTabela() {
+            console.log(arrayObj.length);
+
             var idComp = document.getElementById("idinpt").value
             let quant = parseFloat(document.getElementById("qntinpt").value)
-            if (idComp != null && quant != null && quant > 0 && quant < 99) {
+            if (idComp != null && quant != null && quant > 0 && quant <= 99) {
                 idDiv++;
                 let item = {
                     "produto_id": 0,
