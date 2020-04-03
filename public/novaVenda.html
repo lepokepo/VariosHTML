@@ -32,6 +32,13 @@
             delete arrayObj[n - 1]
             console.log(arrayObj);
             contaVenda--;
+
+            var x = document.getElementById("snackbar");
+            x.innerHTML = "Deletado com sucesso"
+            x.className = "show";
+            setTimeout(function () {
+                x.className = x.className.replace("show", "");
+            }, 3000);
         }
 
         function finalizaVenda() {
